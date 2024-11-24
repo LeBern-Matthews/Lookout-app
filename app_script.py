@@ -25,7 +25,7 @@ def getIP():
 
 def getcountry():
     # Define API URL
-    API_URL = 'https://apiip.net/api/check?accessKey={905c0915-afc8-4dc5-a258-1243c62db6dd}'
+    API_URL = 'https://apiip.net/api/check?accessKey={d4f9b109-0a44-4e29-8cdc-c66c07de1942}'
     
     # Enter the ip for search
     IP_FOR_SEARCH = '&ip=67.250.186.196'
