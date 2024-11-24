@@ -9,7 +9,6 @@ def main():
 
    
     root.mainloop()
-    pass
     
 def layout():
     pass
