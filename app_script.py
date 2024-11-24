@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-import socket
+import public_ip as ip
 import requests
 
 
@@ -16,21 +16,22 @@ def layout():
 def getIP():
     # Python Program to Get IP Address
     
-    hostname = socket.gethostname()
-    IPAddr = socket.gethostbyname(hostname)
-    
-    print("Your Computer IP Address is:" + IPAddr)
-    return IPAddr
+    IPAddr=ip.get()
+    return str(IPAddr)
 
 def getcountry(IP):
     # Define API URL
-    API_URL = 'https://apiip.net/api/check?accessKey={d4f9b109-0a44-4e29-8cdc-c66c07de1942}'
+    print(IP)
+    BASE_URL = 'https://apiip.net/api/check?ip='
     
-    # Enter the ip for search
-    IP_FOR_SEARCH = '&ip='+IP
     
+   
+    API_URL=BASE_URL+IP+'&accessKey=d4f9b109-0a44-4e29-8cdc-c66c07de1942'
+    
+    print(API_URL)
+   
     # Getting in response JSON
-    response = requests.get(API_URL+IP_FOR_SEARCH)
+    response = requests.get(API_URL)
     
     # Loading JSON from text to object
     json_response = response.json()
