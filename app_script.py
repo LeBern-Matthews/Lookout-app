@@ -6,8 +6,11 @@ import requests
 
 def main():
     root=tk.Tk()
+    root.geometry("360x640")
     IP=getIP()
     getcountry(IP)
+    
+    
     root.mainloop()
     
 def layout():
