@@ -6,8 +6,8 @@ import requests
 
 def main():
     root=tk.Tk()
-
-   
+    IP=getIP()
+    getcountry(IP)
     root.mainloop()
     
 def layout():
@@ -19,16 +19,15 @@ def getIP():
     hostname = socket.gethostname()
     IPAddr = socket.gethostbyname(hostname)
     
-    print("Your Computer Name is:" + hostname)
     print("Your Computer IP Address is:" + IPAddr)
     return IPAddr
 
-def getcountry():
+def getcountry(IP):
     # Define API URL
     API_URL = 'https://apiip.net/api/check?accessKey={905c0915-afc8-4dc5-a258-1243c62db6dd}'
     
     # Enter the ip for search
-    IP_FOR_SEARCH = '&ip=67.250.186.196'
+    IP_FOR_SEARCH = '&ip='+IP
     
     # Getting in response JSON
     response = requests.get(API_URL+IP_FOR_SEARCH)
@@ -44,5 +43,5 @@ def getcountry():
 def weather_status():
     pass
     
-if __name__="main":
-    main():
+if __name__=="__main__":
+    main()
