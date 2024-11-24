@@ -1,7 +1,16 @@
 import tkinter as tk
+from tkinter import ttk
 import socket
 import requests
 
+
+def main():
+    root=tk.Tk()
+
+   
+    root.mainloop()
+    pass
+    
 def layout():
     pass
 
@@ -35,13 +44,6 @@ def getcountry():
     
 def weather_status():
     pass
-def main():
-    pass
-
-
-main():
-
-
-
-root=tk.Tk()
-root.mainloop()
+    
+if __name__="main":
+    main():
