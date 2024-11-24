@@ -30,7 +30,9 @@ def getcountry():
     
     # Print the results
     print(json_response)
-
+    if json_response==200:
+        print(json_response["countryName"])
+    
 def weather_status():
     pass
 def main():
