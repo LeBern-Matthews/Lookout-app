@@ -44,5 +44,5 @@ def getcountry():
 def weather_status():
     pass
     
-if __name__="main":
-    main():
+if __name__=="main":
+    main()
