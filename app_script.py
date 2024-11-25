@@ -4,7 +4,12 @@ import public_ip as ip
 import requests
 
 root=tk.Tk()
-BACKGROUND="#878672"
+#BACKGROUND="#878672"
+BACKGROUND="#545333"
+home_icon=tk.PhotoImage(file=r"home.png")
+user_icon=tk.PhotoImage(file=r"user.png")
+contacts_icon=tk.PhotoImage(file=r"id-card.png")
+Checklist_icon=tk.PhotoImage(file=r"test.png")
 
 def main():
     
@@ -13,14 +18,21 @@ def main():
     #getcountry(IP)
     layout()
    
-    root.resizable(False, False)
+    #root.resizable(False, False)
     root.mainloop()
     
 def layout():
-    navbar=tk.Frame(root, bg=BACKGROUND, height=200)
-    btn=tk.Button(navbar, height=5,width=400, bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0)
-    btn.pack()
-    navbar.place(x=-1,y=600)
+    navbar=tk.Frame(root, bg=BACKGROUND, height=40, borderwidth=5, border=5, width=360)
+    home_btn=tk.Button(navbar,image=home_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=1)
+    Checklist_btn=tk.Button(navbar,image=Checklist_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=1)
+    contacts_btn=tk.Button(navbar,image=contacts_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=1)
+    user_btn=tk.Button(navbar,image=user_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=1)
+       
+    home_btn.pack(side="left", padx=8, pady=2)
+    Checklist_btn.pack(side="top", padx=8, pady=2)
+    contacts_btn.pack(side="top", padx=8, pady=2)
+    user_btn.pack(side="top", padx=8, pady=2)
+    navbar.place(x=0,y=600)
     
 
 def getIP():
