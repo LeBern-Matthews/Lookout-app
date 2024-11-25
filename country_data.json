@@ -1,7 +1,7 @@
 {
   "countries":[
     "Anguilla": {
-    "police": "[{"number1":911, "number2": 999}]",
+    "police": "[{"number1":911, "number2": 999}],
     "ambulance": "	1 (268) 462-0251",
     "fire_dept": "	1 (268) 462-0044",
   },
