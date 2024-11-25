@@ -14,7 +14,7 @@
     "fire_dept": 311,
   },
     "Barbados": {
-    "police": "[{"number1":911, "number2": 919, "number3":"(242) 322-4444"}]",
+    "police": [{"number1":911, "number2": 919, "number3":"(242) 322-4444"}],
     "ambulance": "(242) 302-4747",
     "fire_dept": 919,
   },
@@ -36,7 +36,7 @@
     "British Virgin Islands": {
     "police": 311,
     "ambulance": 911,
-    "fire_dept": 	1 (284) 494-3473,
+    "fire_dept": "1 (284) 494-3473",
   },
     "Cayman Islands": {
     "police": 911,
