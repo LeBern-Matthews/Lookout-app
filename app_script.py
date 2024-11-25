@@ -27,8 +27,6 @@ def getcountry(IP):
     print(IP)
     BASE_URL = 'https://apiip.net/api/check?ip='
     
-    
-   
     API_URL=BASE_URL+IP+'&accessKey=d4f9b109-0a44-4e29-8cdc-c66c07de1942'
     
     print(API_URL)
@@ -39,11 +37,12 @@ def getcountry(IP):
     # Loading JSON from text to object
     json_response = response.json()
     
-    # Print the results
-    print(json_response)
-    if json_response==200:
-        print(json_response["countryName"])
-    
+    if response.status_code==200:
+        return json_response["countryName"]
+    else:
+        print('Failed to retrieve info')
+        
+        
 def weather_status():
     pass
     
