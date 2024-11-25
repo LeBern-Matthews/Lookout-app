@@ -18,7 +18,7 @@ def main():
     
 def layout():
     navbar=tk.Frame(root, bg=BACKGROUND, height=200)
-    btn=tk.Button(navbar, height=2,width=400, bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0)
+    btn=tk.Button(navbar, height=5,width=400, bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0)
     btn.pack()
     navbar.place(x=-1,y=600)
     

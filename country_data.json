@@ -116,9 +116,9 @@
     "fire_dept": 919
   },
     "Saint Vincent and the Grenadines": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": ""
+    "police":  [{"number1":911, "number2": 999}],
+    "ambulance": "784-456-1955",
+    "fire_dept":  [{"number1":911, "number2": 999}]
   },
     "Eustatius": {
     "police": 912,
