@@ -1,229 +1,228 @@
 {
-  "countries":[
-    "Anguilla": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Antigua and Barbuda": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Bahamas": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Barbados": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-  "Belize": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Bermuda": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Bonaire": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "British Virgin Islands": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Cayman Islands": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Cuba": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Curacao": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Dominica": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Dominican Republic": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Grenada": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Guadeloupe": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Haiti": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Jamaica": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Martinique": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Montserrat": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Puerto Rico": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Saba": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Saint Barthélemy": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Saint Kitts and Nevis": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Saint Lucia": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Saint Martin": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Saint Pierre and Miquelon": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Saint Vincent and the Grenadines": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Eusatius": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Sint Maarten": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Trinidad and Tobago": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "Turks and Caicos Islands": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  },
-    "U.S. Virgin Islands": {
-    "police": "",
-    "ambulance": "",
-    "fire_dept": "",
-    "local_shelter": "",
-    "nearest_hospital": ""
-  }
-]
-
+    "countries":[
+      {
+      "Anguilla": 
+      {
+        "police":"" , "ambulance": "honey","fire_dept":"",
+        "local_shelter": "",
+        "nearest_hospital":""
+      },
+      "Antigua and Barbuda":
+      {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Bahamas": { 
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+      },
+      "Barbados": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+    "Belize": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Bermuda": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Bonaire": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "British Virgin Islands": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Cayman Islands": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Cuba": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Curacao": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Dominica": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Dominican Republic": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Grenada": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Guadeloupe": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Haiti": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Jamaica": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Martinique": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Montserrat": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Puerto Rico": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Saba": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Saint Barthélemy": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Saint Kitts and Nevis": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Saint Lucia": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Saint Martin": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Saint Pierre and Miquelon": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Saint Vincent and Grenadines": {
+      "police": [{"number1":999, "number2":911}],
+      "ambulance": "7844301955",
+      "fire_dept": [{"number1":999, "number2":911}]
+    },
+      "Eusatius": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Sint Maarten": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Trinidad and Tobago": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "Turks and Caicos Islands": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    },
+      "U.S. Virgin Islands": {
+      "police": "",
+      "ambulance": "",
+      "fire_dept": "",
+      "local_shelter": "",
+      "nearest_hospital": ""
+    }
+    
+}]
 }
