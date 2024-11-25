@@ -3,18 +3,25 @@ from tkinter import ttk
 import public_ip as ip
 import requests
 
+root=tk.Tk()
+BACKGROUND="#878672"
 
 def main():
-    root=tk.Tk()
+    
     root.geometry("360x640")
-    IP=getIP()
-    getcountry(IP)
-    
-    
+    #IP=getIP()
+    #getcountry(IP)
+    layout()
+   
+    root.resizable(False, False)
     root.mainloop()
     
 def layout():
-    pass
+    navbar=tk.Frame(root, bg=BACKGROUND, height=200)
+    btn=tk.Button(navbar, height=2,width=400, bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0)
+    btn.pack()
+    navbar.place(x=-1,y=600)
+    
 
 def getIP():
     # Python Program to Get IP Address
@@ -40,7 +47,7 @@ def getcountry(IP):
     if response.status_code==200:
         return json_response["countryName"]
     else:
-        print('Failed to retrieve info')
+       return 'Failed to retrieve info'
         
         
 def weather_status():
