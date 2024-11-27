@@ -29,11 +29,17 @@ def layout():
     
     
     def home_page():
-        home_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=560, width=360)
+        home_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=1000, width=360)
         
-        lb=tk.Label(home_frame, text="home")
+        lb=tk.Label(home_frame, text="Home")
+        Progress_bar=ttk.Progressbar(home_frame, orient="horizontal", length=300)
+        preparedness_meter=tk.Label(home_frame, text="Prepared-o-meter", font="Bold, 24")
+        weather_lbl=tk.Label(home_frame, font="Bold, 12",text="Weather")
         lb.pack()
-        
+        preparedness_meter.pack(pady=5)
+        Progress_bar.pack(padx=0, pady=5)
+        weather_lbl.place(y=265, x=0)
+        home_frame.pack_propagate(False)
         home_frame.pack()
         
     def checklist_page():
