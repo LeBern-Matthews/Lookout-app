@@ -11,6 +11,9 @@ user_icon=tk.PhotoImage(file=r"user.png")
 contacts_icon=tk.PhotoImage(file=r"id-card.png")
 Checklist_icon=tk.PhotoImage(file=r"test.png")
 
+essentials=["Water: 1 gallon per person, per day, for at least 3 days", "Non-perishable Food: Canned goods, dries fruits, nuts", "Manual can opener", "First-Aid kit", "Battery-powered or hand-cranked rdio", "Flashlights and extra betteries", "Cell phone charger", "Cash: ATMs may be unavailable", "Important documents: Birth Certificates, insurance policies, policies, passports","Tools", "Hygiene Items", "Wet wipes", "Plastic bags", "work gloves", "Blackets and Pillows", "Rain Gear "]
+
+
 def main():
     root.title("Lookout")
     root.geometry("360x640")
@@ -44,15 +47,27 @@ def layout():
         
     def checklist_page():
         checklist_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=560, width=360) 
-        
+        checklist_frame.pack_propagate(False)
         lb=tk.Label(checklist_frame, text="checklist")
         lb.pack()
+        
+        essential_supplies=tk.Label(checklist_frame, text="Essential supplies", font="Bold, 16")
+        essential_supplies.place(x=0, y=25)
+        
+        essentials_frame=tk.Frame(checklist_frame)
+        for essential in essentials:
+            check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}")
+            check_btn.pack()
+        essentials_frame.place(x=0, y=70)
         
         checklist_frame.pack()
         
         
+        
+        
     def contacts_page():
         contacts_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=560, width=360)
+        contacts_frame.pack_propagate(False)
         lb=tk.Label(contacts_frame, text="contacts")
         lb.pack()
         
@@ -61,7 +76,7 @@ def layout():
     def profile_page():
         
         profile_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360 )
-        profile_frame.pack_forget()
+        profile_frame.pack_propagate(False)
         lb=tk.Label(profile_frame, text="profile")
         lb.pack(fill="both")
         
