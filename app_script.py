@@ -11,7 +11,7 @@ user_icon=tk.PhotoImage(file=r"user.png")
 contacts_icon=tk.PhotoImage(file=r"id-card.png")
 Checklist_icon=tk.PhotoImage(file=r"test.png")
 
-essentials=["Water: 1 gallon per person, per day, for at least 3 days", "Non-perishable Food: Canned goods, dries fruits, nuts", "Manual can opener", "First-Aid kit", "Battery-powered or hand-cranked rdio", "Flashlights and extra betteries", "Cell phone charger", "Cash: ATMs may be unavailable", "Important documents: Birth Certificates, insurance policies, policies, passports","Tools", "Hygiene Items", "Wet wipes", "Plastic bags", "work gloves", "Blackets and Pillows", "Rain Gear "]
+essentials=["Water: 1 gallon per person, per day, for at least 3 days", "Non-perishable Food: Canned goods, dries fruits, nuts", "Manual can opener", "First-Aid kit", "Battery-powered or hand-cranked rdio", "Flashlights and extra betteries", "Cell phone charger", "Cash: ATMs may be unavailable", "Important documents: Birth Certificates, insurance policies","Tools", "Hygiene Items", "Wet wipes", "Plastic bags", "work gloves", "Blackets and Pillows", "Rain Gear"]
 
 
 def main():
@@ -28,8 +28,8 @@ def layout():
     main_frame=tk.Frame(root, highlightbackground="black", highlightthickness=2) 
     main_frame.pack_propagate(False)
     main_frame.configure(height=560, width=360)
-    main_frame.pack(side="top")
     
+    main_frame.pack(side="top")
     
     def home_page():
         home_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=1000, width=360)
@@ -49,20 +49,18 @@ def layout():
         checklist_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=560, width=360) 
         checklist_frame.pack_propagate(False)
         lb=tk.Label(checklist_frame, text="checklist")
-        lb.pack()
+        #lb.pack()
         
-        essential_supplies=tk.Label(checklist_frame, text="Essential supplies", font="Bold, 16")
-        essential_supplies.place(x=0, y=25)
+        essential_supplies=tk.Label(checklist_frame, text="Essential supplies", font=("Bold",  16, "underline"))
+        essential_supplies.place(x=0, y=5)
         
         essentials_frame=tk.Frame(checklist_frame)
         for essential in essentials:
-            check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}")
-            check_btn.pack()
+            check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}", height=1)
+            check_btn.pack_configure(pady=2,anchor="w")
         essentials_frame.place(x=0, y=70)
         
         checklist_frame.pack()
-        
-        
         
         
     def contacts_page():
@@ -91,7 +89,7 @@ def layout():
         hide_pages()
         page()
     
-    
+    home_page()
     
     #Creating the nav bar
     paddingy=24
