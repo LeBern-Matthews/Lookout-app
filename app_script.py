@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import public_ip as ip
 import requests
+import json
 
 root=tk.Tk()
 #BACKGROUND="#878672"
@@ -13,18 +14,16 @@ Checklist_icon=tk.PhotoImage(file=r"test.png")
 
 essentials=["Water: 1 gallon per person, per day, for at least 3 days", "Non-perishable Food: Canned goods, dries fruits, nuts", "Manual can opener", "First-Aid kit", "Battery-powered or hand-cranked rdio", "Flashlights and extra betteries", "Cell phone charger", "Cash: ATMs may be unavailable", "Important documents: Birth Certificates, insurance policies","Tools", "Hygiene Items", "Wet wipes", "Plastic bags", "work gloves", "Blackets and Pillows", "Rain Gear"]
 
-
 def main():
     root.title("Lookout")
     root.geometry("360x640")
-    #IP=getIP()
-    #getcountry(IP)
-    layout()
-   
+    IP=getIP()
+    Country_name=getcountry(IP)
+    layout(Country_name)
     root.resizable(False, False)
     root.mainloop()
     
-def layout():
+def layout(Country_name:str):
     main_frame=tk.Frame(root, highlightbackground="black", highlightthickness=2) 
     main_frame.pack_propagate(False)
     main_frame.configure(height=560, width=360)
@@ -32,10 +31,11 @@ def layout():
     main_frame.pack(side="top")
     
     def home_page():
+        global Progress_bar, home_frame
         home_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=1000, width=360)
-        
+        home_frame.winfo_id()
         lb=tk.Label(home_frame, text="Home")
-        Progress_bar=ttk.Progressbar(home_frame, orient="horizontal", length=300)
+        Progress_bar=ttk.Progressbar(home_frame, orient="horizontal", length=300, mode="determinate")
         preparedness_meter=tk.Label(home_frame, text="Prepared-o-meter", font="Bold, 24")
         weather_lbl=tk.Label(home_frame, font="Bold, 12",text="Weather")
         lb.pack()
@@ -56,18 +56,62 @@ def layout():
         
         essentials_frame=tk.Frame(checklist_frame)
         for essential in essentials:
-            check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}", height=1)
+            check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}", height=1, command=fill_bar)
             check_btn.pack_configure(pady=2,anchor="w")
         essentials_frame.place(x=0, y=70)
         
         checklist_frame.pack()
         
-        
     def contacts_page():
+        """
+        Creats an emergency contacts page which displays the police, ambulance and fire department contacts
+        """
         contacts_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=560, width=360)
         contacts_frame.pack_propagate(False)
-        lb=tk.Label(contacts_frame, text="contacts")
-        lb.pack()
+        lb=tk.Label(contacts_frame, text="EMERGENCY CONTACTS", font="Bold, 20")
+        lb.pack(pady=10)
+        for_country=tk.Label(contacts_frame, text=f"For {Country_name}", font="Bold, 14")
+        for_country.pack(anchor="w")
+        services=emergency_contacts(Country_name)
+
+
+        # adjsting for multiple numbers
+        if type(services[Country_name]["police"])== list:
+            police_number=""
+            for number in services[Country_name]["police"]:
+                police_number=f"{police_number},{number}"
+
+        else:
+            police_number=services[Country_name]["police"]
+
+        # creating label for the Police number
+        police_lbl=tk.Label(contacts_frame, text=f"Police: {police_number}", font="Bold, 12")
+        police_lbl.pack(anchor="w", pady=5)
+        
+        # adjsting for multiple numbers        
+        if type(services[Country_name]["ambulance"])== list:
+            ambulance_number=""
+            for number in services[Country_name]["ambulance"]:
+                ambulance_number=f"{ambulance_number},{number}"
+        else:
+            ambulance_number=services[Country_name]["ambulance"]
+
+        # creating label for the Ambulance numbers
+        ambulance_lbl=tk.Label(contacts_frame, text=f"Ambulance: {ambulance_number}", font="Bold, 12")
+        ambulance_lbl.pack(anchor="w", pady=5)
+
+        # adjsting for multiple numbers
+        if type(services[Country_name]["fire_dept"])== list:
+            fire_dept_number=""
+            for number in services[Country_name]["fire_dept"]:
+                fire_dept_number=f"{fire_dept_number},{number}"
+        else:
+            fire_dept_number=services[Country_name]["fire_dept"]
+
+        # creating label for the Fire department number
+        fire_dept_lbl=tk.Label(contacts_frame, text=f"Fire deptpartment: {fire_dept_number}", font="Bold, 12")
+        fire_dept_lbl.pack(anchor="w", pady=5)
+        
         
         contacts_frame.pack()
         
@@ -82,7 +126,11 @@ def layout():
     
     def hide_pages():
         for frame in main_frame.winfo_children():
-            frame.destroy()
+            print(frame)
+            if frame==home_frame:
+                frame.pack_forget()
+            else:
+                frame.destroy()
         
     def switch_page(page):
 
@@ -105,16 +153,35 @@ def layout():
     user_btn.pack(side="left", padx=30, pady=paddingy)
     navbar.place(x=0,y=560)
     
-    
-    
+    def fill_bar():
+        global Progress_bar,home_frame
+        print("Entered fill_bar")
+        Progress_bar.configure(value=6)
+        print("Updated progress bar")
+        root.update_idletasks()
 
-def getIP():
+def getIP()->str:
+    """
+    Gets Ip dress from the public_ip module
+
+    Returns:
+        str: IP adress in string form
+    """
     # Python Program to Get IP Address
     
     IPAddr=ip.get()
     return str(IPAddr)
 
-def getcountry(IP):
+def getcountry(IP:str)->str:
+    """
+    Finds the country name based on the IP adress entered
+
+    Args:
+        IP (str): Public IP adress (IPv4 or IPv6)
+
+    Returns:
+        str: Country name
+    """
     # Define API URL
     print(IP)
     BASE_URL = 'https://apiip.net/api/check?ip='
@@ -128,13 +195,30 @@ def getcountry(IP):
     
     # Loading JSON from text to object
     json_response = response.json()
-    
+     
     if response.status_code==200:
-        return json_response["countryName"]
+        return json_response["officialCountryName"]
     else:
        return 'Failed to retrieve info'
         
-        
+def emergency_contacts(Country_name:str)->dict:
+    """
+    Retrieves emergency contacts from "country.json" based on the country name entered
+
+    Args:
+        Country_name (str): A string containing the name of the country program is being ran in
+
+    Returns:
+        dict: Dictionary containing the countryas the key, and emergency contacts as the argument
+    """
+    with open("country_data.json", "r") as file:
+        x:dict=json.load(file)
+        for country in x["countries"]:
+            for place, value in country.items():
+                if place==Country_name:
+                    country_info={place:value}
+                    return country_info
+
 def weather_status():
     pass
     

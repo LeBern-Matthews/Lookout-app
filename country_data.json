@@ -6,7 +6,7 @@
     "fire_dept": "1 (268) 462-0044"
   },
     "Antigua and Barbuda": {
-    "police": [{"number1":911, "number2": 999}],
+    "police": [911,999],
     "ambulance": "1 (268) 462-0251",
     "fire_dept": "1 (268) 462-0044"
   },
@@ -16,7 +16,7 @@
     "fire_dept": 311
   },
     "Barbados": {
-    "police": [{"number1":911, "number2": 919, "number3":"(242) 322-4444"}],
+    "police": [911,919, "(242) 322-4444"],
     "ambulance": "(242) 302-4747",
     "fire_dept": 919
   },
@@ -81,7 +81,7 @@
     "fire_dept": 18
   },
     "Montserrat": {
-    "police":[{"number1": "1 (664) 491-2555", "number2": " 1(664) 491-2556"}],
+    "police":[ "1 (664) 491-2555",  " 1(664) 491-2556"],
     "ambulance": "1 (664) 491-7790",
     "fire_dept": "1 (664) 491-7790"
   },
@@ -116,9 +116,9 @@
     "fire_dept": 919
   },
     "Saint Vincent and the Grenadines": {
-    "police":  [{"number1":911, "number2": 999}],
-    "ambulance": "784-456-1955",
-    "fire_dept":  [{"number1":911, "number2": 999}]
+    "police":  [911,999],
+    "ambulance": "(784)456-1955",
+    "fire_dept":  [911, 999]
   },
     "Eustatius": {
     "police": 912,
