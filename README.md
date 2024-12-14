@@ -35,7 +35,7 @@ This Python program will create an app that is used for hurricane preparedness
 1. Ensure you have Python 3.8 or above installed.
 2. Install required libraries using pip:
     ```
-   pip instant tkinter puplic_ip requests
+   pip install public_ip requests
     ```
 3. Ensure the following files are in the repository:
    - `home.png`,`user.png`,`id-card.png`,and `test.png`: Icons for the navigation bar
