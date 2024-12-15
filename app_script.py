@@ -17,12 +17,27 @@ essentials=["Water: 1 gallon per person, per day, for at least 3 days", "Non-per
 def main():
     root.title("Lookout")
     root.geometry("360x640")
+    
     IP=getIP()
     Country_name=getcountry(IP)
     layout(Country_name)
     root.resizable(False, False)
+    center_window(root)
     root.mainloop()
-    
+
+def center_window(window):
+    window.update_idletasks()
+    width = window.winfo_width()
+    height = window.winfo_height()
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    x = (screen_width - width) // 2
+    y = (screen_height - height) // 2
+    window.geometry(f"{width}x{height}+{x}+{y}")
+
+
+
+
 def layout(Country_name:str):
     main_frame=tk.Frame(root, highlightbackground="black", highlightthickness=2) 
     main_frame.pack_propagate(False)
