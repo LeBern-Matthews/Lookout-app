@@ -7,6 +7,11 @@ import json
 root=tk.Tk()
 #BACKGROUND="#878672"
 BACKGROUND="#545333"
+
+GREEN="#357C3C"
+YELLOW="#FFD700"
+RED="#990000"
+
 home_icon=tk.PhotoImage(file=r"home.png")
 user_icon=tk.PhotoImage(file=r"user.png")
 contacts_icon=tk.PhotoImage(file=r"id-card.png")
@@ -47,24 +52,40 @@ def layout(Country_name:str):
     def fill_progressbar():
         global progresss_fill
 
-        progresss_fill+=6
+        progresss_fill+=6.25
         print("Entered fill_progressbar")
         Progress_bar.configure(value=progresss_fill)
+        if progresss_fill<=33.33:
+            Progress_bar.config(style="Bad.Horizontal.TProgressbar")
+        elif progresss_fill<=66.66:
+            Progress_bar.config(style="Moderate.Horizontal.TProgressbar")
+        else:
+             Progress_bar.config(style="good.Horizontal.TProgressbar")
         print("Updated progress bar", progresss_fill)
         root.update_idletasks()
+        home_frame.update_idletasks()
 
 
     # HOME PAGE
     
+
+    '''
+    '#e5473a'
+    '#fdcc46'
+    '#52593b'
+    '''
+
     home_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=1000, width=360)
     home_frame.winfo_id()
 
     new_style=ttk.Style()
-    new_style.configure("Bad.Horizontal.TProgressbar",background='#52593b')
-    new_style.configure("Moderate.Horizontal.TProgressbar",background='#52593b')
-    new_style.configure("Good.Horizontal.TProgressbar",background='#52593b')
+    new_style.theme_use('alt')
+    new_style.configure("Bad.Horizontal.TProgressbar",background=RED)
+    new_style.configure("Moderate.Horizontal.TProgressbar",background=YELLOW)
+    new_style.configure("good.Horizontal.TProgressbar",background=GREEN,  foreground=GREEN)
 
-    Progress_bar=ttk.Progressbar(home_frame, orient="horizontal", length=300, mode="determinate", style="Custom.Horizontal.TProgressbar")
+    Progress_bar=ttk.Progressbar(home_frame, orient="horizontal", length=300, mode="determinate", 
+                                 style="good.Horizontal.TProgressbar")
     
     preparedness_meter=tk.Label(home_frame, text="Prepared-o-meter", font="Bold, 24")
     weather_lbl=tk.Label(home_frame, font="Bold, 12",text="Weather")
