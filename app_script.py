@@ -7,11 +7,17 @@ import json
 root=tk.Tk()
 #BACKGROUND="#878672"
 BACKGROUND="#545333"
+
+GREEN="#357C3C"
+YELLOW="#FFD700"
+RED="#990000"
+
 home_icon=tk.PhotoImage(file=r"home.png")
 user_icon=tk.PhotoImage(file=r"user.png")
 contacts_icon=tk.PhotoImage(file=r"id-card.png")
 Checklist_icon=tk.PhotoImage(file=r"test.png")
 
+variable_list=[]
 essentials=["Water: 1 gallon per person, per day, for at least 3 days", "Non-perishable Food: Canned goods, dries fruits, nuts", "Manual can opener", "First-Aid kit", "Battery-powered or hand-cranked rdio", "Flashlights and extra betteries", "Cell phone charger", "Cash: ATMs may be unavailable", "Important documents: Birth Certificates, insurance policies","Tools", "Hygiene Items", "Wet wipes", "Plastic bags", "work gloves", "Blackets and Pillows", "Rain Gear"]
 
 def main():
@@ -35,145 +41,156 @@ def center_window(window):
     y = (screen_height - height) // 2
     window.geometry(f"{width}x{height}+{x}+{y}")
 
-
-
-
 def layout(Country_name:str):
     main_frame=tk.Frame(root, highlightbackground="black", highlightthickness=2) 
     main_frame.pack_propagate(False)
     main_frame.configure(height=560, width=360)
     
     main_frame.pack(side="top")
+
+    def fill_progressbar(check_btn: tk.Checkbutton):
+        progresss_fill:int=0
+        print(check_btn["variable"])
+        
+        if progresss_fill>=0 and progresss_fill<100:
+            for choice in variable_list:
+                if choice.get()==1: 
+                    progresss_fill+=6.25
+                
+            if progresss_fill<=33.33:
+                Progress_bar.config(style="Bad.Horizontal.TProgressbar")
+            elif progresss_fill<=66.66:
+                Progress_bar.config(style="Moderate.Horizontal.TProgressbar")
+            else:
+                Progress_bar.config(style="good.Horizontal.TProgressbar")
+            print("Updated progress bar", progresss_fill)
+            
+            Progress_bar.configure(value=progresss_fill)
+            home_frame.update_idletasks()
+        else:
+            print("Outside of range")
+    # HOME PAGE
     
-    def home_page():
-        global Progress_bar, home_frame
-        home_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=1000, width=360)
-        home_frame.winfo_id()
-        lb=tk.Label(home_frame, text="Home")
-        Progress_bar=ttk.Progressbar(home_frame, orient="horizontal", length=300, mode="determinate")
-        preparedness_meter=tk.Label(home_frame, text="Prepared-o-meter", font="Bold, 24")
-        weather_lbl=tk.Label(home_frame, font="Bold, 12",text="Weather")
-        lb.pack()
-        preparedness_meter.pack(pady=5)
-        Progress_bar.pack(padx=0, pady=5)
-        weather_lbl.place(y=265, x=0)
-        home_frame.pack_propagate(False)
-        home_frame.pack()
-        
-    def checklist_page():
-        checklist_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=560, width=360) 
-        checklist_frame.pack_propagate(False)
-        lb=tk.Label(checklist_frame, text="checklist")
-        #lb.pack()
-        
-        essential_supplies=tk.Label(checklist_frame, text="Essential supplies", font=("Bold",  16, "underline"))
-        essential_supplies.place(x=0, y=5)
-        
-        essentials_frame=tk.Frame(checklist_frame)
-        for essential in essentials:
-            check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}", height=1, command=fill_bar)
-            check_btn.pack_configure(pady=2,anchor="w")
-        essentials_frame.place(x=0, y=70)
-        
-        checklist_frame.pack()
-        
-    def contacts_page():
-        """
-        Creats an emergency contacts page which displays the police, ambulance and fire department contacts
-        """
-        contacts_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=560, width=360)
-        contacts_frame.pack_propagate(False)
-        lb=tk.Label(contacts_frame, text="EMERGENCY CONTACTS", font="Bold, 20")
-        lb.pack(pady=10)
-        for_country=tk.Label(contacts_frame, text=f"For {Country_name}", font="Bold, 14")
-        for_country.pack(anchor="w")
-        services=emergency_contacts(Country_name)
+    home_frame=tk.Frame(main_frame,height=1000, width=360)
+    home_frame.winfo_id()
 
+    new_style=ttk.Style()
+    new_style.theme_use('alt')
+    new_style.configure("Bad.Horizontal.TProgressbar",background=RED)
+    new_style.configure("Moderate.Horizontal.TProgressbar",background=YELLOW)
+    new_style.configure("good.Horizontal.TProgressbar",background=GREEN,  foreground=GREEN)
 
-        # adjsting for multiple numbers
-        if type(services[Country_name]["police"])== list:
-            police_number=""
-            for number in services[Country_name]["police"]:
-                police_number=f"{police_number},{number}"
+    Progress_bar=ttk.Progressbar(home_frame, orient="horizontal", length=300, mode="determinate", 
+                                 style="good.Horizontal.TProgressbar")
+    
+    preparedness_meter=tk.Label(home_frame, text="Prepared-o-meter", font="Bold, 24")
+    weather_lbl=tk.Label(home_frame, font="Bold, 12",text="Weather")
 
-        else:
-            police_number=services[Country_name]["police"]
+    preparedness_meter.pack(pady=5)
+    Progress_bar.pack(padx=0, pady=5)
+    weather_lbl.place(y=265, x=0)
+    home_frame.pack_propagate(False)
+    home_frame.pack()
+    
+    # CHECKLIST PAGE
 
-        # creating label for the Police number
-        police_lbl=tk.Label(contacts_frame, text=f"Police: {police_number}", font="Bold, 12")
-        police_lbl.pack(anchor="w", pady=5)
-        
-        # adjsting for multiple numbers        
-        if type(services[Country_name]["ambulance"])== list:
-            ambulance_number=""
-            for number in services[Country_name]["ambulance"]:
-                ambulance_number=f"{ambulance_number},{number}"
-        else:
-            ambulance_number=services[Country_name]["ambulance"]
+    checklist_frame=tk.Frame(main_frame,height=560, width=360) 
+    checklist_frame.pack_propagate(False)
+    
+    essential_supplies=tk.Label(checklist_frame, text="Essential supplies", font=("Bold",  16, "underline"))
+    essential_supplies.place(x=0, y=5)
+    
+    essentials_frame=tk.Frame(checklist_frame)
+    for essential in essentials:
+        choiceNum = tk.IntVar()
+        check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}", 
+                                height=1, variable=choiceNum, command=lambda:fill_progressbar(check_btn))
+        variable_list.append(choiceNum)
+        check_btn.pack_configure(pady=2,anchor="w")
+    essentials_frame.place(x=0, y=70)
+    
+    checklist_frame.pack()
 
-        # creating label for the Ambulance numbers
-        ambulance_lbl=tk.Label(contacts_frame, text=f"Ambulance: {ambulance_number}", font="Bold, 12")
-        ambulance_lbl.pack(anchor="w", pady=5)
+    """
+    Creats an emergency contacts page which displays the police, ambulance and fire department contacts
+    """
+    contacts_frame=tk.Frame(main_frame,height=560, width=360)
+    contacts_frame.pack_propagate(False)
+    lb=tk.Label(contacts_frame, text="EMERGENCY CONTACTS", font="Bold, 20")
+    lb.pack(pady=10)
+    for_country=tk.Label(contacts_frame, text=f"For {Country_name}", font="Bold, 14")
+    for_country.pack(anchor="w")
+    services=emergency_contacts(Country_name)
 
-        # adjsting for multiple numbers
-        if type(services[Country_name]["fire_dept"])== list:
-            fire_dept_number=""
-            for number in services[Country_name]["fire_dept"]:
-                fire_dept_number=f"{fire_dept_number},{number}"
-        else:
-            fire_dept_number=services[Country_name]["fire_dept"]
+    # adjsting for multiple numbers
+    if type(services[Country_name]["police"])== list:
+        police_number=""
+        for number in services[Country_name]["police"]:
+            police_number=f"{police_number},{number}"
 
-        # creating label for the Fire department number
-        fire_dept_lbl=tk.Label(contacts_frame, text=f"Fire deptpartment: {fire_dept_number}", font="Bold, 12")
-        fire_dept_lbl.pack(anchor="w", pady=5)
-        
-        
-        contacts_frame.pack()
-        
-    def profile_page():
-        
-        profile_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360 )
-        profile_frame.pack_propagate(False)
-        lb=tk.Label(profile_frame, text="profile")
-        lb.pack(fill="both")
-        
-        profile_frame.pack()
+    else:
+        police_number=services[Country_name]["police"]
+
+    # creating label for the Police number
+    police_lbl=tk.Label(contacts_frame, text=f"Police: {police_number}", font="Bold, 12")
+    police_lbl.pack(anchor="w", pady=5)
+    
+    # adjsting for multiple numbers        
+    if type(services[Country_name]["ambulance"])== list:
+        ambulance_number=""
+        for number in services[Country_name]["ambulance"]:
+            ambulance_number=f"{ambulance_number},{number}"
+    else:
+        ambulance_number=services[Country_name]["ambulance"]
+
+    # creating label for the Ambulance numbers
+    ambulance_lbl=tk.Label(contacts_frame, text=f"Ambulance: {ambulance_number}", font="Bold, 12")
+    ambulance_lbl.pack(anchor="w", pady=5)
+
+    # adjsting for multiple numbers
+    if type(services[Country_name]["fire_dept"])== list:
+        fire_dept_number=""
+        for number in services[Country_name]["fire_dept"]:
+            fire_dept_number=f"{fire_dept_number},{number}"
+    else:
+        fire_dept_number=services[Country_name]["fire_dept"]
+
+    # creating label for the Fire department number
+    fire_dept_lbl=tk.Label(contacts_frame, text=f"Fire deptpartment: {fire_dept_number}", font="Bold, 12")
+    fire_dept_lbl.pack(anchor="w", pady=5)
+    
+    # PROFILE
+    profile_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360 )
+    profile_frame.pack_propagate(False)
+    
     
     def hide_pages():
         for frame in main_frame.winfo_children():
-            print(frame)
-            if frame==home_frame:
-                frame.pack_forget()
-            else:
-                frame.destroy()
-        
-    def switch_page(page):
+            frame.pack_forget()
 
+    def switch_page(page):
+        print(page)
         hide_pages()
-        page()
+        page.pack()
     
-    home_page()
     
+    #NAVBAR
+
     #Creating the nav bar
     paddingy=24
     navbar=tk.Frame(root, bg=BACKGROUND, height=40, borderwidth=5, border=5, width=360)
-    home_btn=tk.Button(navbar,image=home_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(home_page))
-    Checklist_btn=tk.Button(navbar,image=Checklist_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(checklist_page))
-    contacts_btn=tk.Button(navbar,image=contacts_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(contacts_page))
-    user_btn=tk.Button(navbar,image=user_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(profile_page))
-       
+    home_btn=tk.Button(navbar,image=home_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(home_frame))
+    Checklist_btn=tk.Button(navbar,image=Checklist_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(checklist_frame))
+    contacts_btn=tk.Button(navbar,image=contacts_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(contacts_frame))
+    user_btn=tk.Button(navbar,image=user_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(profile_frame))
+
+    #packing stuff
     home_btn.pack(side="left", padx=20, pady=paddingy)
     Checklist_btn.pack(side="left", padx=30, pady=paddingy)
     contacts_btn.pack(side="left", padx=30, pady=paddingy)
     user_btn.pack(side="left", padx=30, pady=paddingy)
     navbar.place(x=0,y=560)
     
-    def fill_bar():
-        global Progress_bar,home_frame
-        print("Entered fill_bar")
-        Progress_bar.configure(value=6)
-        print("Updated progress bar")
-        root.update_idletasks()
 
 def getIP()->str:
     """
