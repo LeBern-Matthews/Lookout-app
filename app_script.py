@@ -17,8 +17,8 @@ user_icon=tk.PhotoImage(file=r"user.png")
 contacts_icon=tk.PhotoImage(file=r"id-card.png")
 Checklist_icon=tk.PhotoImage(file=r"test.png")
 
+variable_list=[]
 essentials=["Water: 1 gallon per person, per day, for at least 3 days", "Non-perishable Food: Canned goods, dries fruits, nuts", "Manual can opener", "First-Aid kit", "Battery-powered or hand-cranked rdio", "Flashlights and extra betteries", "Cell phone charger", "Cash: ATMs may be unavailable", "Important documents: Birth Certificates, insurance policies","Tools", "Hygiene Items", "Wet wipes", "Plastic bags", "work gloves", "Blackets and Pillows", "Rain Gear"]
-progresss_fill:int=0
 
 def main():
     root.title("Lookout")
@@ -47,35 +47,31 @@ def layout(Country_name:str):
     main_frame.configure(height=560, width=360)
     
     main_frame.pack(side="top")
-    
 
-    def fill_progressbar():
-        global progresss_fill
-
-        progresss_fill+=6.25
-        print("Entered fill_progressbar")
-        Progress_bar.configure(value=progresss_fill)
-        if progresss_fill<=33.33:
-            Progress_bar.config(style="Bad.Horizontal.TProgressbar")
-        elif progresss_fill<=66.66:
-            Progress_bar.config(style="Moderate.Horizontal.TProgressbar")
+    def fill_progressbar(check_btn: tk.Checkbutton):
+        progresss_fill:int=0
+        print(check_btn["variable"])
+        
+        if progresss_fill>=0 and progresss_fill<100:
+            for choice in variable_list:
+                if choice.get()==1: 
+                    progresss_fill+=6.25
+                
+            if progresss_fill<=33.33:
+                Progress_bar.config(style="Bad.Horizontal.TProgressbar")
+            elif progresss_fill<=66.66:
+                Progress_bar.config(style="Moderate.Horizontal.TProgressbar")
+            else:
+                Progress_bar.config(style="good.Horizontal.TProgressbar")
+            print("Updated progress bar", progresss_fill)
+            
+            Progress_bar.configure(value=progresss_fill)
+            home_frame.update_idletasks()
         else:
-             Progress_bar.config(style="good.Horizontal.TProgressbar")
-        print("Updated progress bar", progresss_fill)
-        root.update_idletasks()
-        home_frame.update_idletasks()
-
-
+            print("Outside of range")
     # HOME PAGE
     
-
-    '''
-    '#e5473a'
-    '#fdcc46'
-    '#52593b'
-    '''
-
-    home_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=1000, width=360)
+    home_frame=tk.Frame(main_frame,height=1000, width=360)
     home_frame.winfo_id()
 
     new_style=ttk.Style()
@@ -97,7 +93,8 @@ def layout(Country_name:str):
     home_frame.pack()
     
     # CHECKLIST PAGE
-    checklist_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=560, width=360) 
+
+    checklist_frame=tk.Frame(main_frame,height=560, width=360) 
     checklist_frame.pack_propagate(False)
     
     essential_supplies=tk.Label(checklist_frame, text="Essential supplies", font=("Bold",  16, "underline"))
@@ -105,7 +102,10 @@ def layout(Country_name:str):
     
     essentials_frame=tk.Frame(checklist_frame)
     for essential in essentials:
-        check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}", height=1, command=fill_progressbar)
+        choiceNum = tk.IntVar()
+        check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}", 
+                                height=1, variable=choiceNum, command=lambda:fill_progressbar(check_btn))
+        variable_list.append(choiceNum)
         check_btn.pack_configure(pady=2,anchor="w")
     essentials_frame.place(x=0, y=70)
     
@@ -114,7 +114,7 @@ def layout(Country_name:str):
     """
     Creats an emergency contacts page which displays the police, ambulance and fire department contacts
     """
-    contacts_frame=tk.Frame(main_frame, highlightbackground="black", highlightthickness=2,height=560, width=360)
+    contacts_frame=tk.Frame(main_frame,height=560, width=360)
     contacts_frame.pack_propagate(False)
     lb=tk.Label(contacts_frame, text="EMERGENCY CONTACTS", font="Bold, 20")
     lb.pack(pady=10)
