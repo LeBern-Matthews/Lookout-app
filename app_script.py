@@ -50,7 +50,6 @@ def layout(Country_name:str):
 
     def fill_progressbar(check_btn: tk.Checkbutton):
         progresss_fill:int=0
-        print(check_btn["variable"])
         
         if progresss_fill>=0 and progresss_fill<100:
             for choice in variable_list:
@@ -86,7 +85,7 @@ def layout(Country_name:str):
     preparedness_meter=tk.Label(home_frame, text="Prepared-o-meter", font="Bold, 24")
     weather_lbl=tk.Label(home_frame, font="Bold, 12",text="Weather")
 
-    preparedness_meter.pack(pady=5)
+    preparedness_meter.pack(pady=10)
     Progress_bar.pack(padx=0, pady=5)
     weather_lbl.place(y=265, x=0)
     home_frame.pack_propagate(False)
