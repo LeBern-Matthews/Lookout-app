@@ -158,9 +158,9 @@ def layout(Country_name:str):
     fire_dept_lbl=tk.Label(contacts_frame, text=f"Fire deptpartment: {fire_dept_number}", font="Bold, 12")
     fire_dept_lbl.pack(anchor="w", pady=5)
     
-    # PROFILE
-    profile_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360 )
-    profile_frame.pack_propagate(False)
+    # settings
+    settings_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360 )
+    settings_frame.pack_propagate(False)
     
     
     def hide_pages():
@@ -181,7 +181,7 @@ def layout(Country_name:str):
     home_btn=tk.Button(navbar,image=home_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(home_frame))
     Checklist_btn=tk.Button(navbar,image=Checklist_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(checklist_frame))
     contacts_btn=tk.Button(navbar,image=contacts_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(contacts_frame))
-    user_btn=tk.Button(navbar,image=user_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(profile_frame))
+    user_btn=tk.Button(navbar,image=user_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(settings_frame))
 
     #packing stuff
     home_btn.pack(side="left", padx=20, pady=paddingy)
