@@ -132,7 +132,7 @@ def layout(Country_name:str):
 
     # creating label for the Police number
     police_lbl=tk.Label(contacts_frame, text=f"Police: {police_number}", font="Bold, 12")
-    police_lbl.pack(anchor="w", pady=5)
+    police_lbl.pack(anchor="w", pady=10)
     
     # adjsting for multiple numbers        
     if type(services[Country_name]["ambulance"])== list:
@@ -144,7 +144,7 @@ def layout(Country_name:str):
 
     # creating label for the Ambulance numbers
     ambulance_lbl=tk.Label(contacts_frame, text=f"Ambulance: {ambulance_number}", font="Bold, 12")
-    ambulance_lbl.pack(anchor="w", pady=5)
+    ambulance_lbl.pack(anchor="w", pady=10)
 
     # adjsting for multiple numbers
     if type(services[Country_name]["fire_dept"])== list:
@@ -156,7 +156,7 @@ def layout(Country_name:str):
 
     # creating label for the Fire department number
     fire_dept_lbl=tk.Label(contacts_frame, text=f"Fire deptpartment: {fire_dept_number}", font="Bold, 12")
-    fire_dept_lbl.pack(anchor="w", pady=5)
+    fire_dept_lbl.pack(anchor="w", pady=10)
     
     # settings
     settings_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360 )
