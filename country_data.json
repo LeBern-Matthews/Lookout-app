@@ -134,6 +134,10 @@
     "police": "1 (649) 941-8067",
     "ambulance": 911,
     "fire_dept": "1 (649) 941-8090"
+  },"Select a county in settings": {
+    "police": "Not applicable",
+    "ambulance": "Not applicable",
+    "fire_dept": "Not applicable"
   }
 }]
 

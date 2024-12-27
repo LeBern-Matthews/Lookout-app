@@ -1,4 +1,5 @@
 import tkinter as tk
+import socket
 from tkinter import ttk
 import public_ip as ip
 import requests
@@ -24,12 +25,12 @@ def main():
     root.title("Lookout")
     root.geometry("360x640")
     
-    IP=getIP()
-    Country_name=getcountry(IP)
-    layout(Country_name)
+    layout()
     root.resizable(False, False)
     center_window(root)
     root.mainloop()
+
+    print(has_internet_connection())
 
 def center_window(window):
     window.update_idletasks()
@@ -41,7 +42,14 @@ def center_window(window):
     y = (screen_height - height) // 2
     window.geometry(f"{width}x{height}+{x}+{y}")
 
-def layout(Country_name:str):
+def layout():
+    if has_internet_connection():
+        IP=getIP()
+
+        Country_name:str=getcountry(IP)
+    else:
+        Country_name:str="Select a county in settings"
+
     main_frame=tk.Frame(root, highlightbackground="black", highlightthickness=2) 
     main_frame.pack_propagate(False)
     main_frame.configure(height=560, width=360)
@@ -249,6 +257,21 @@ def emergency_contacts(Country_name:str)->dict:
                 if place==Country_name:
                     country_info={place:value}
                     return country_info
+
+def has_internet_connection()->bool:
+    """
+    Checks if the device has an active internet connection.
+    
+    Returns:
+        bool: True if connected to the internet, False otherwise.
+    """
+    try:
+        # Try connecting to a public domain (like google.com)
+        socket.create_connection(("8.8.8.8", 53)) 
+        return True
+    except Exception:
+        return False
+
 
 def weather_status():
     pass
