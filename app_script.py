@@ -166,9 +166,40 @@ def layout():
     fire_dept_lbl=tk.Label(contacts_frame, text=f"Fire deptpartment: {fire_dept_number}", font="Bold, 12")
     fire_dept_lbl.pack(anchor="w", pady=10)
     
-    # settings
+    # SETTINGS PAGE
     settings_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360 )
     settings_frame.pack_propagate(False)
+
+    # Dropdown menu options 
+    options = [ 
+        "Anguilla", 
+        "Antigua and Barbuda", 
+        "Bahamas", 
+        "Barbados", 
+        "Belize", 
+        "Bermuda", 
+        "Bonaire",
+        "British Virgin Islands",
+        "Cayman Islands",
+        "Cuba",
+        "Curacao",
+        "Dominica",
+        "Grenada",
+        "Guadeloupe",
+        "Jamaica",
+        "Martinique",
+        "Montserrat",
+        "Puerto Rico",
+        "Saba",
+        "Saint Barthélemy",
+        "Saint Kitts and Nevis",
+        "Saint Lucia",
+        "Saint Martin",
+        "Saint Vincent and the Grenadines",
+        "Eustatius",
+        "Trinidad and Tobago",
+        "Turks and Caicos Islands"
+    ]
     
     
     def hide_pages():
