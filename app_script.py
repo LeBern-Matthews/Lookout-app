@@ -30,8 +30,6 @@ def main():
     center_window(root)
     root.mainloop()
 
-    print(has_internet_connection())
-
 def center_window(window):
     window.update_idletasks()
     width = window.winfo_width()
@@ -47,8 +45,10 @@ def layout():
         IP=getIP()
 
         Country_name:str=getcountry(IP)
+        text=Country_name
     else:
         Country_name:str="Select a county in settings"
+        text:str="Choose location"
 
     main_frame=tk.Frame(root, highlightbackground="black", highlightthickness=2) 
     main_frame.pack_propagate(False)
@@ -70,7 +70,6 @@ def layout():
                 Progress_bar.config(style="Moderate.Horizontal.TProgressbar")
             else:
                 Progress_bar.config(style="good.Horizontal.TProgressbar")
-            print("Updated progress bar", progresss_fill)
             
             Progress_bar.configure(value=progresss_fill)
             home_frame.update_idletasks()
@@ -123,52 +122,55 @@ def layout():
     """
     contacts_frame=tk.Frame(main_frame,height=560, width=360)
     contacts_frame.pack_propagate(False)
-    lb=tk.Label(contacts_frame, text="EMERGENCY CONTACTS", font="Bold, 20")
+    lb=tk.Label(contacts_frame, text="EMERGENCY CONTACTS", font="Bold, 20", name="contacts")
     lb.pack(pady=10)
-    for_country=tk.Label(contacts_frame, text=f"For {Country_name}", font="Bold, 14")
-    for_country.pack(anchor="w")
-    services=emergency_contacts(Country_name)
+    def contanct_building(Country_name:str):
+        for_country=tk.Label(contacts_frame, text=f"For {Country_name}", font="Bold, 14")
+        for_country.pack(anchor="w")
+        services=emergency_contacts(Country_name)
 
-    # adjsting for multiple numbers
-    if type(services[Country_name]["police"])== list:
-        police_number=""
-        for number in services[Country_name]["police"]:
-            police_number=f"{police_number},{number}"
+        # adjsting for multiple numbers
+        if type(services[Country_name]["police"])== list:
+            police_number=",".join(services[Country_name]["police"])
+        else:
+            police_number=services[Country_name]["police"]
 
-    else:
-        police_number=services[Country_name]["police"]
+        # creating label for the Police number
+        police_lbl=tk.Label(contacts_frame, text=f"Police: {police_number}", font="Bold, 12")
+        police_lbl.pack(anchor="w", pady=10)
+        
+        # adjsting for multiple numbers        
+        if type(services[Country_name]["ambulance"])== list:
+            ambulance_number=",".join(services[Country_name]["ambulance"])
+        else:
+            ambulance_number=services[Country_name]["ambulance"]
 
-    # creating label for the Police number
-    police_lbl=tk.Label(contacts_frame, text=f"Police: {police_number}", font="Bold, 12")
-    police_lbl.pack(anchor="w", pady=10)
-    
-    # adjsting for multiple numbers        
-    if type(services[Country_name]["ambulance"])== list:
-        ambulance_number=""
-        for number in services[Country_name]["ambulance"]:
-            ambulance_number=f"{ambulance_number},{number}"
-    else:
-        ambulance_number=services[Country_name]["ambulance"]
+        # creating label for the Ambulance numbers
+        ambulance_lbl=tk.Label(contacts_frame, text=f"Ambulance: {ambulance_number}", font="Bold, 12")
+        ambulance_lbl.pack(anchor="w", pady=10)
 
-    # creating label for the Ambulance numbers
-    ambulance_lbl=tk.Label(contacts_frame, text=f"Ambulance: {ambulance_number}", font="Bold, 12")
-    ambulance_lbl.pack(anchor="w", pady=10)
+        # adjsting for multiple numbers
+        if type(services[Country_name]["fire_dept"])== list:
+            fire_dept_number=",".join(services[Country_name]["fire_dept"])
+        else:
+            fire_dept_number=services[Country_name]["fire_dept"]
 
-    # adjsting for multiple numbers
-    if type(services[Country_name]["fire_dept"])== list:
-        fire_dept_number=""
-        for number in services[Country_name]["fire_dept"]:
-            fire_dept_number=f"{fire_dept_number},{number}"
-    else:
-        fire_dept_number=services[Country_name]["fire_dept"]
-
-    # creating label for the Fire department number
-    fire_dept_lbl=tk.Label(contacts_frame, text=f"Fire deptpartment: {fire_dept_number}", font="Bold, 12")
-    fire_dept_lbl.pack(anchor="w", pady=10)
-    
+        # creating label for the Fire department number
+        fire_dept_lbl=tk.Label(contacts_frame, text=f"Fire deptpartment: {fire_dept_number}", font="Bold, 12")
+        fire_dept_lbl.pack(anchor="w", pady=10)
+    contanct_building(Country_name)
     # SETTINGS PAGE
     settings_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360 )
     settings_frame.pack_propagate(False)
+    
+    def update():
+
+        for widget in contacts_frame.winfo_children():
+            if widget.winfo_name()!="contacts":
+                widget.destroy()
+
+        Country_name=clicked.get()
+        contanct_building(Country_name)
 
     # Dropdown menu options 
     options = [ 
@@ -201,13 +203,35 @@ def layout():
         "Turks and Caicos Islands"
     ]
     
+    # datatype of menu text 
+    clicked = tk.StringVar() 
     
+    # initial menu text 
+    clicked.set(text)
+    
+    # Create Dropdown menu 
+    drop = tk.OptionMenu( settings_frame , clicked , *options) 
+    
+    drop.pack() 
+    
+    update_btn=tk.Button(settings_frame, text="Update", command=update)
+    update_btn.pack()
+
+
     def hide_pages():
+        """
+        Hides all the pages in the frame "main_frame"
+        """
         for frame in main_frame.winfo_children():
             frame.pack_forget()
 
-    def switch_page(page):
-        print(page)
+    def switch_page(page:tk.Frame):
+        """
+        Switches to the frame clicked 
+
+        Args:
+            page(Frame): tkinter frame relating to the page 
+        """
         hide_pages()
         page.pack()
     
@@ -228,7 +252,6 @@ def layout():
     contacts_btn.pack(side="left", padx=30, pady=paddingy)
     user_btn.pack(side="left", padx=30, pady=paddingy)
     navbar.place(x=0,y=560)
-    
 
 def getIP()->str:
     """
@@ -247,18 +270,15 @@ def getcountry(IP:str)->str:
     Finds the country name based on the IP adress entered
 
     Args:
-        IP (str): Public IP adress (IPv4 or IPv6)
+        IP (str): Public IP address (IPv4 or IPv6)
 
     Returns:
         str: Country name
     """
     # Define API URL
-    print(IP)
     BASE_URL = 'https://apiip.net/api/check?ip='
     
     API_URL=BASE_URL+IP+'&accessKey=d4f9b109-0a44-4e29-8cdc-c66c07de1942'
-    
-    print(API_URL)
    
     # Getting in response JSON
     response = requests.get(API_URL)
