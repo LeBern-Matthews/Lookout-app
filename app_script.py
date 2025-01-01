@@ -21,6 +21,11 @@ user_icon=tk.PhotoImage(file=r"setting.png")
 contacts_icon=tk.PhotoImage(file=r"id-card.png")
 Checklist_icon=tk.PhotoImage(file=r"test.png")
 
+home_icon_white=tk.PhotoImage(file=r"home-white.png")
+user_icon_white=tk.PhotoImage(file=r"setting-white.png")
+contacts_icon_white=tk.PhotoImage(file=r"id-card-white.png")
+Checklist_icon_white=tk.PhotoImage(file=r"test-white.png")
+
 variable_list=[]
 essentials=["Water: 1 gallon per person, per day, for at least 3 days", "Non-perishable Food: Canned goods, dries fruits, nuts", "Manual can opener", "First-Aid kit", "Battery-powered or hand-cranked rdio", "Flashlights and extra betteries", "Cell phone charger", "Cash: ATMs may be unavailable", "Important documents: Birth Certificates, insurance policies","Tools", "Hygiene Items", "Wet wipes", "Plastic bags", "work gloves", "Blackets and Pillows", "Rain Gear"]
 
@@ -86,8 +91,7 @@ def layout():
             print("Outside of range")
     
     # HOME PAGE
-    home_frame=tk.Frame(main_frame,height=1000, width=360, background=BACKGROUND)
-    home_frame.winfo_id()
+    home_frame=tk.Frame(main_frame,height=1000, width=360, background=BACKGROUND, name="home_frame")
 
     new_style=ttk.Style()
     new_style.theme_use('alt')
@@ -113,14 +117,14 @@ def layout():
     home_frame.pack()
     
     # CHECKLIST PAGE
-    checklist_frame=tk.Frame(main_frame,height=560, width=360, background=BACKGROUND) 
+    checklist_frame=tk.Frame(main_frame,height=560, width=360, background=BACKGROUND, name="checklist_frame") 
     checklist_frame.pack_propagate(False)
     
     essential_supplies=tk.Label(checklist_frame, text="Essential supplies", font=("Bold",  16, "underline")
                                 , background=BACKGROUND)
     essential_supplies.place(x=0, y=5)
     
-    essentials_frame=tk.Frame(checklist_frame, background=BACKGROUND)
+    essentials_frame=tk.Frame(checklist_frame, background=BACKGROUND, name="essentials_frame")
     for essential in essentials:
         choiceNum = tk.IntVar()
         check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}", 
@@ -135,7 +139,7 @@ def layout():
     """
     Creats an emergency contacts page which displays the police, ambulance and fire department contacts
     """
-    contacts_frame=tk.Frame(main_frame,height=560, width=360,background=BACKGROUND)
+    contacts_frame=tk.Frame(main_frame,height=560, width=360,background=BACKGROUND, name="contacts_frame")
     contacts_frame.pack_propagate(False)
     lb=tk.Label(contacts_frame, text="EMERGENCY CONTACTS", font="Bold, 20", name="contacts"
                 ,background=BACKGROUND)
@@ -182,10 +186,10 @@ def layout():
     contanct_building(Country_name)
     # SETTINGS PAGE
     settings_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360
-                            , background=BACKGROUND )
+                            , background=BACKGROUND, name="settings_frame") 
     settings_frame.pack_propagate(False)
     
-    location_frame=tk.Frame(settings_frame, background=BACKGROUND)
+    location_frame=tk.Frame(settings_frame, background=BACKGROUND, name="location_frame")
 
     def update():
 
@@ -240,7 +244,7 @@ def layout():
     #creating the update button
     update_btn=tk.Button(location_frame, text="Update", command=update
                          , background=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, 
-                         activeforeground="white",border=0)
+                         activeforeground="white",border=3)
 
     #creating the label
     location_lbl=tk.Label(location_frame, text="Location", font="Bold, 14", background=BACKGROUND)
@@ -312,19 +316,27 @@ def layout():
             BACKGROUND_COLOR (str): The background color of the widgets
         """
         drop.config(highlightcolor=FORGROUND_COLOR)
-        for frame in main_frame.winfo_children():
-            frame.config(bg=BACKGROUND_COLOR)
-            for children in frame.winfo_children():
+        for page in main_frame.winfo_children():
+            page.config(bg=BACKGROUND_COLOR)
+            for children in page.winfo_children():
                 if type(children)==tk.Frame:
                     children.config(bg=BACKGROUND_COLOR)
 
                     for widget in children.winfo_children():
                         widget.config(fg=FORGROUND_COLOR)
                         widget.config(bg=BACKGROUND_COLOR)
+                        if children.winfo_name()=="location_frame" and type(widget)==tk.Button:
+                            widget.config(highlightcolor=FORGROUND_COLOR,highlightbackground = FORGROUND_COLOR)
+
+                        if type(widget)==tk.Checkbutton:
+                            widget.config(selectcolor=BACKGROUND_COLOR
+                            ,activebackground=BACKGROUND_COLOR)
+                     
+
                 elif type(children)==tk.Label:
                     children.config(fg=FORGROUND_COLOR)
                     children.config(bg=BACKGROUND_COLOR)
-
+  
     def hide_pages():
         """
         Hides all the pages in the frame "main_frame"
@@ -339,6 +351,22 @@ def layout():
         Args:
             page(Frame): tkinter frame relating to the page 
         """
+        home_btn.config(image=home_icon)
+        Checklist_btn.config(image=Checklist_icon)
+        contacts_btn.config(image=contacts_icon)
+        user_btn.config(image=user_icon)
+
+        match page.winfo_name():
+            case "home_frame":
+                home_btn.config(image=home_icon_white)
+            case "checklist_frame":
+                Checklist_btn.config(image=Checklist_icon_white)
+            case "contacts_frame":
+                contacts_btn.config(image=contacts_icon_white)
+            case "settings_frame":
+                user_btn.config(image=user_icon_white)
+            case _:
+                pass
         hide_pages()
         page.pack()
     
