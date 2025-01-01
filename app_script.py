@@ -7,14 +7,17 @@ import json
 
 root=tk.Tk()
 #BACKGROUND="#878672"
-BACKGROUND="#545333"
+BACKGROUND="#f4f0dc"
+DARKBACKGROUND="#1e1e1e"
 
+NAVBAR_BACKGROUND="#6d6a42"
+DARK_NAVBAR_BACKGROUND="#545333"
 GREEN="#357C3C"
 YELLOW="#FFD700"
 RED="#990000"
 
 home_icon=tk.PhotoImage(file=r"home.png")
-user_icon=tk.PhotoImage(file=r"user.png")
+user_icon=tk.PhotoImage(file=r"setting.png")
 contacts_icon=tk.PhotoImage(file=r"id-card.png")
 Checklist_icon=tk.PhotoImage(file=r"test.png")
 
@@ -50,7 +53,7 @@ def layout():
         Country_name:str="Select a county in settings"
         text:str="Choose location"
 
-    main_frame=tk.Frame(root, highlightbackground="black", highlightthickness=2) 
+    main_frame=tk.Frame(root, name="main_frame") 
     main_frame.pack_propagate(False)
     main_frame.configure(height=560, width=360)
     
@@ -66,18 +69,24 @@ def layout():
                 
             if progresss_fill<=33.33:
                 Progress_bar.config(style="Bad.Horizontal.TProgressbar")
+                encourage_text="unprepared"
             elif progresss_fill<=66.66:
                 Progress_bar.config(style="Moderate.Horizontal.TProgressbar")
+                encourage_text="sufficiently prepared"
             else:
                 Progress_bar.config(style="good.Horizontal.TProgressbar")
+                encourage_text="prepared"
             
+            percentage=round(progresss_fill, 2)
+            preparedness_lbl.config(text=f"{percentage}%")
+            encouraged_lbl.config(text=f"You are {encourage_text} for a disaster")
             Progress_bar.configure(value=progresss_fill)
             home_frame.update_idletasks()
         else:
             print("Outside of range")
-    # HOME PAGE
     
-    home_frame=tk.Frame(main_frame,height=1000, width=360)
+    # HOME PAGE
+    home_frame=tk.Frame(main_frame,height=1000, width=360, background=BACKGROUND)
     home_frame.winfo_id()
 
     new_style=ttk.Style()
@@ -89,28 +98,34 @@ def layout():
     Progress_bar=ttk.Progressbar(home_frame, orient="horizontal", length=300, mode="determinate", 
                                  style="good.Horizontal.TProgressbar")
     
-    preparedness_meter=tk.Label(home_frame, text="Prepared-o-meter", font="Bold, 24")
-    weather_lbl=tk.Label(home_frame, font="Bold, 12",text="Weather")
+    preparedness_meter=tk.Label(home_frame, text="Prepared-o-meter", font="Bold, 24", background=BACKGROUND)
+    preparedness_lbl=tk.Label(home_frame, text="0%", font="Bold, 12", background=BACKGROUND)
+    weather_lbl=tk.Label(home_frame, font="Bold, 12",text="Weather", background=BACKGROUND)
+    encouraged_lbl=tk.Label(home_frame, font="Bold, 12", background=BACKGROUND)
 
+    #packing the widgets
     preparedness_meter.pack(pady=10)
     Progress_bar.pack(padx=0, pady=5)
+    preparedness_lbl.pack()
+    encouraged_lbl.pack(pady=5,anchor="w", padx=20)
     weather_lbl.place(y=265, x=0)
     home_frame.pack_propagate(False)
     home_frame.pack()
     
     # CHECKLIST PAGE
-
-    checklist_frame=tk.Frame(main_frame,height=560, width=360) 
+    checklist_frame=tk.Frame(main_frame,height=560, width=360, background=BACKGROUND) 
     checklist_frame.pack_propagate(False)
     
-    essential_supplies=tk.Label(checklist_frame, text="Essential supplies", font=("Bold",  16, "underline"))
+    essential_supplies=tk.Label(checklist_frame, text="Essential supplies", font=("Bold",  16, "underline")
+                                , background=BACKGROUND)
     essential_supplies.place(x=0, y=5)
     
-    essentials_frame=tk.Frame(checklist_frame)
+    essentials_frame=tk.Frame(checklist_frame, background=BACKGROUND)
     for essential in essentials:
         choiceNum = tk.IntVar()
         check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}", 
-                                height=1, variable=choiceNum, command=lambda:fill_progressbar(check_btn))
+                                height=1, variable=choiceNum, command=lambda:fill_progressbar(check_btn)
+                                ,bg=BACKGROUND,activebackground=BACKGROUND)
         variable_list.append(choiceNum)
         check_btn.pack_configure(pady=2,anchor="w")
     essentials_frame.place(x=0, y=70)
@@ -120,12 +135,14 @@ def layout():
     """
     Creats an emergency contacts page which displays the police, ambulance and fire department contacts
     """
-    contacts_frame=tk.Frame(main_frame,height=560, width=360)
+    contacts_frame=tk.Frame(main_frame,height=560, width=360,background=BACKGROUND)
     contacts_frame.pack_propagate(False)
-    lb=tk.Label(contacts_frame, text="EMERGENCY CONTACTS", font="Bold, 20", name="contacts")
+    lb=tk.Label(contacts_frame, text="EMERGENCY CONTACTS", font="Bold, 20", name="contacts"
+                ,background=BACKGROUND)
     lb.pack(pady=10)
     def contanct_building(Country_name:str):
-        for_country=tk.Label(contacts_frame, text=f"For {Country_name}", font="Bold, 14")
+        for_country=tk.Label(contacts_frame, text=f"For {Country_name}", font="Bold, 14"
+                             , background=BACKGROUND)
         for_country.pack(anchor="w")
         services=emergency_contacts(Country_name)
 
@@ -136,7 +153,8 @@ def layout():
             police_number=services[Country_name]["police"]
 
         # creating label for the Police number
-        police_lbl=tk.Label(contacts_frame, text=f"Police: {police_number}", font="Bold, 12")
+        police_lbl=tk.Label(contacts_frame, text=f"Police: {police_number}", font="Bold, 12"
+                            , background=BACKGROUND)
         police_lbl.pack(anchor="w", pady=10)
         
         # adjsting for multiple numbers        
@@ -146,7 +164,8 @@ def layout():
             ambulance_number=services[Country_name]["ambulance"]
 
         # creating label for the Ambulance numbers
-        ambulance_lbl=tk.Label(contacts_frame, text=f"Ambulance: {ambulance_number}", font="Bold, 12")
+        ambulance_lbl=tk.Label(contacts_frame, text=f"Ambulance: {ambulance_number}", font="Bold, 12"
+                               , background=BACKGROUND)
         ambulance_lbl.pack(anchor="w", pady=10)
 
         # adjsting for multiple numbers
@@ -156,13 +175,18 @@ def layout():
             fire_dept_number=services[Country_name]["fire_dept"]
 
         # creating label for the Fire department number
-        fire_dept_lbl=tk.Label(contacts_frame, text=f"Fire deptpartment: {fire_dept_number}", font="Bold, 12")
+        fire_dept_lbl=tk.Label(contacts_frame, text=f"Fire deptpartment: {fire_dept_number}", font="Bold, 12"
+                               , background=BACKGROUND)
         fire_dept_lbl.pack(anchor="w", pady=10)
+
     contanct_building(Country_name)
     # SETTINGS PAGE
-    settings_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360 )
+    settings_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360
+                            , background=BACKGROUND )
     settings_frame.pack_propagate(False)
     
+    location_frame=tk.Frame(settings_frame, background=BACKGROUND)
+
     def update():
 
         for widget in contacts_frame.winfo_children():
@@ -210,13 +234,96 @@ def layout():
     clicked.set(text)
     
     # Create Dropdown menu 
-    drop = tk.OptionMenu( settings_frame , clicked , *options) 
-    
-    drop.pack() 
-    
-    update_btn=tk.Button(settings_frame, text="Update", command=update)
-    update_btn.pack()
+    drop = tk.OptionMenu( location_frame , clicked , *options) 
+    drop.config(bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND
+                ,border=0)
+    #creating the update button
+    update_btn=tk.Button(location_frame, text="Update", command=update
+                         , background=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, 
+                         activeforeground="white",border=0)
 
+    #creating the label
+    location_lbl=tk.Label(location_frame, text="Location", font="Bold, 14", background=BACKGROUND)
+
+    #packing the widgets
+    location_lbl.pack(pady=10,padx=5, anchor="w")
+    drop.pack(side="left", padx=5) 
+    update_btn.pack(side="right")
+    location_frame.place(y=30)
+
+    appearance_frame=tk.Frame(settings_frame, background=BACKGROUND)
+    appearance_lbl=tk.Label(appearance_frame, text="Appearance", font="Bold, 14"
+                            , background=BACKGROUND)
+    appearance_lbl_2=tk.Label(appearance_frame, text="Change the theme of the app", font="Bold, 9"
+                              , background=BACKGROUND)
+
+    def sel():
+        selection = f"You selected the {var.get()} mode"
+        if var.get() == "light":
+            #changing the nav bar background color
+            FORGROUND_COLOR="black"
+            change_theme(FORGROUND_COLOR,BACKGROUND)
+
+            root.config(bg=BACKGROUND)
+
+            change_navbar_theme(NAVBAR_BACKGROUND)
+        else:
+            FORGROUND_COLOR="white"
+
+            change_theme(FORGROUND_COLOR,DARKBACKGROUND )
+
+            #changing the nav background color
+            root.config(bg="red")
+            change_navbar_theme(DARK_NAVBAR_BACKGROUND)
+
+    var = tk.StringVar(value="light")
+
+    #creating the radio buttons
+    light_btn=tk.Radiobutton(appearance_frame, text="Light", variable=var, value="light", command=sel, background=BACKGROUND, activebackground=BACKGROUND)
+    dark_btn=tk.Radiobutton(appearance_frame, text="Dark", variable=var, value="dark", command=sel, background=BACKGROUND, activebackground=BACKGROUND)
+
+    #packing the widgets
+    appearance_lbl.pack(pady=10,padx=5, anchor="w")
+    appearance_lbl_2.pack(padx=5, anchor="w")
+    light_btn.pack(side="left", padx=5)
+    dark_btn.pack(side="left", padx=5)
+
+    appearance_frame.place(y=150)
+
+    def change_navbar_theme(COLOR:str)->None:
+        """
+        Changes the color of the nav bar and the buttons in the nav bar to the color passed in the argument
+
+        Parameters:
+            COLOR (str): The color to change the nav bar and the buttons in the nav bar to
+        """
+        navbar.config(bg=COLOR)
+        home_btn.config(bg=COLOR, activebackground=COLOR)
+        Checklist_btn.config(bg=COLOR, activebackground=COLOR)
+        contacts_btn.config(bg=COLOR, activebackground=COLOR)
+        user_btn.config(bg=COLOR, activebackground=COLOR)
+
+    def change_theme(FORGROUND_COLOR:str, BACKGROUND_COLOR:str)->None:
+        """"
+        Changes the colour for the widgets in the frame "main_frame" to match the color passed in the argument
+
+        Parameters:
+            FORGROUND_COLOR (str): The color of the text in the widgets
+            BACKGROUND_COLOR (str): The background color of the widgets
+        """
+        drop.config(highlightcolor=FORGROUND_COLOR)
+        for frame in main_frame.winfo_children():
+            frame.config(bg=BACKGROUND_COLOR)
+            for children in frame.winfo_children():
+                if type(children)==tk.Frame:
+                    children.config(bg=BACKGROUND_COLOR)
+
+                    for widget in children.winfo_children():
+                        widget.config(fg=FORGROUND_COLOR)
+                        widget.config(bg=BACKGROUND_COLOR)
+                elif type(children)==tk.Label:
+                    children.config(fg=FORGROUND_COLOR)
+                    children.config(bg=BACKGROUND_COLOR)
 
     def hide_pages():
         """
@@ -235,16 +342,14 @@ def layout():
         hide_pages()
         page.pack()
     
-    
     #NAVBAR
-
     #Creating the nav bar
     paddingy=24
-    navbar=tk.Frame(root, bg=BACKGROUND, height=40, borderwidth=5, border=5, width=360)
-    home_btn=tk.Button(navbar,image=home_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(home_frame))
-    Checklist_btn=tk.Button(navbar,image=Checklist_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(checklist_frame))
-    contacts_btn=tk.Button(navbar,image=contacts_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(contacts_frame))
-    user_btn=tk.Button(navbar,image=user_icon,bg=BACKGROUND, activebackground=BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(settings_frame))
+    navbar=tk.Frame(root, bg=NAVBAR_BACKGROUND, height=40, borderwidth=5, border=5, width=360)
+    home_btn=tk.Button(navbar,image=home_icon,bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(home_frame))
+    Checklist_btn=tk.Button(navbar,image=Checklist_icon,bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(checklist_frame))
+    contacts_btn=tk.Button(navbar,image=contacts_icon,bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(contacts_frame))
+    user_btn=tk.Button(navbar,image=user_icon,bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(settings_frame))
 
     #packing stuff
     home_btn.pack(side="left", padx=20, pady=paddingy)
@@ -322,7 +427,6 @@ def has_internet_connection()->bool:
         return True
     except Exception:
         return False
-
 
 def weather_status():
     pass
