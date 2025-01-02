@@ -62,4 +62,4 @@ This Python program will create an app that is used for hurricane preparedness
 
 ## Acknowledgments
 - Icons used in the navigation bar are sourced from [here](https://www.flaticon.com/authors/freepik)
-- Geolocation service powered by [apiip.net](apiip.net).
+- Geolocation service powered by [apiip.net](https://apiip.net/).
