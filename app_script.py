@@ -1,6 +1,6 @@
 import tkinter as tk
-import socket
 from tkinter import ttk
+import socket
 import public_ip as ip
 import requests
 import json
@@ -273,7 +273,6 @@ def layout():
             change_navbar_theme(NAVBAR_BACKGROUND)
         else:
             FORGROUND_COLOR="white"
-
             change_theme(FORGROUND_COLOR,DARKBACKGROUND )
 
             #changing the nav background color
