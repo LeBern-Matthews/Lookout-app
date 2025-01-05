@@ -34,18 +34,18 @@ This Python program will create an app that is used for hurricane preparedness
 ## Instructions
 1. Ensure you have Python 3.8 or above installed.
 2. Install required libraries using pip:
-    ```
-   pip install public_ip requests
-    ```
+    
+       pip install public_ip requests
+    
 3. Ensure the following files are in the repository:
    - `home.png`,`user.png`,`id-card.png`,and `test.png`: Icons for the navigation bar
    - `country_data.json`: A JSON file containing emergency contact information for various countries.
 ## Usage
 1. Run the program by:
    1. Opening a terminal and typing
-      ```
-      python app_script.py
-      ```
+   
+          python app_script.py
+      
    2. double click on the file titled `app_script.py`
 2. The app will detect your public IP and automatically determine your country using an IP geolocation service
    
@@ -57,6 +57,25 @@ This Python program will create an app that is used for hurricane preparedness
 
 
 ## Functions
+`main()`
+
+The main function that runs the program
+
+`layout()`
+
+Creates the layout of the app
+
+`getcountry()`
+
+Gets IP dress from the public_ip module
+        
+`emergency_contacts()`
+
+`has_internet_connection()`
+
+`weather_status()`
+
+`getIP()`
 
 ## Dependencies
 
