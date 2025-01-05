@@ -16,11 +16,13 @@ GREEN="#357C3C"
 YELLOW="#FFD700"
 RED="#990000"
 
+# ICONS
 home_icon=tk.PhotoImage(file=r"home.png")
 user_icon=tk.PhotoImage(file=r"setting.png")
 contacts_icon=tk.PhotoImage(file=r"id-card.png")
 Checklist_icon=tk.PhotoImage(file=r"test.png")
 
+# ICONS WHITE
 home_icon_white=tk.PhotoImage(file=r"home-white.png")
 user_icon_white=tk.PhotoImage(file=r"setting-white.png")
 contacts_icon_white=tk.PhotoImage(file=r"id-card-white.png")
@@ -36,6 +38,7 @@ def main():
     layout()
     root.resizable(False, False)
     center_window(root)
+    root.iconphoto(False, tk.PhotoImage(file=r"icon.png"))
     root.mainloop()
 
 def center_window(window):
