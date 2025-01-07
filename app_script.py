@@ -4,6 +4,8 @@ import socket
 import public_ip as ip
 import requests
 import json
+from datetime import datetime
+import os
 
 root=tk.Tk()
 #BACKGROUND="#878672"
@@ -32,6 +34,9 @@ variable_list=[]
 essentials=["Water: 1 gallon per person, per day, for at least 3 days", "Non-perishable Food: Canned goods, dries fruits, nuts", "Manual can opener", "First-Aid kit", "Battery-powered or hand-cranked rdio", "Flashlights and extra betteries", "Cell phone charger", "Cash: ATMs may be unavailable", "Important documents: Birth Certificates, insurance policies","Tools", "Hygiene Items", "Wet wipes", "Plastic bags", "work gloves", "Blackets and Pillows", "Rain Gear"]
 
 def main():
+    """
+    # Main function that runs the program
+    """
     root.title("Lookout")
     root.geometry("360x640")
     
@@ -52,14 +57,64 @@ def center_window(window):
     window.geometry(f"{width}x{height}+{x}+{y}")
 
 def layout():
+    """
+    Creates the layout of the app
+    """
     if has_internet_connection():
         IP=getIP()
-
-        Country_name:str=getcountry(IP)
+        location_info:dict=getcountry(IP)
+        Country_name:str=location_info["country"]
         text=Country_name
+        weather_stuff=weather_status(location_info)
+        weather=weather_stuff["weather"]
+        temp=str(weather_stuff["temp"])+"°C"
+        description=weather_stuff["description"]
+        last_updated_time=weather_stuff["time"]
+        time_part,date_part=last_updated_time.split(",")
+        month=check_month(date_part[3:5])
+        
+        date=f"{int(date_part[0:2])}th of {month}, 20{int(date_part[6:8])}"
+
+        if time_part[0:2]>="12":
+            time_part=f"{int(time_part[0:2])-12}:{time_part[3:5]} PM"
+        else:
+            time_part=f"{time_part} AM"
+
+        last_updated_msg=f"{time_part} on {date}"
+
     else:
         Country_name:str="Select a county in settings"
         text:str="Choose location"
+
+        if os.path.exists("weather_info.json"):
+            print("This file exists")
+            with open("weather_info.json", "r") as file:
+                x:dict=json.load(file)
+                last_updated_time=x["time"]
+                
+                weather=x["weather"]
+                temp=str(x["temp"])+"°C"
+                description=x["description"]
+
+
+                time_part,date_part=last_updated_time.split(",")
+                month=check_month(date_part[3:5])
+                
+                date=f"{int(date_part[0:2])}th of {month}, 20{int(date_part[6:8])}"
+
+                if time_part[0:2]>="12":
+                    time_part=f"{int(time_part[0:2])-12}:{time_part[3:5]} PM"
+                else:
+                    time_part=f"{time_part} AM"
+
+                last_updated_msg=f"{time_part} on {date}"
+        else:
+            last_updated_msg="No previous data"
+            weather=""
+            temp=""
+            description=""
+            
+        location_info:dict={"country":"Select a country","latitude":"0","longitude":"0"}
 
     main_frame=tk.Frame(root, name="main_frame") 
     main_frame.pack_propagate(False)
@@ -107,15 +162,34 @@ def layout():
     
     preparedness_meter=tk.Label(home_frame, text="Prepared-o-meter", font="Bold, 24", background=BACKGROUND)
     preparedness_lbl=tk.Label(home_frame, text="0%", font="Bold, 12", background=BACKGROUND)
-    weather_lbl=tk.Label(home_frame, font="Bold, 12",text="Weather", background=BACKGROUND)
+
+    weather_frame=tk.Frame(home_frame, background=BACKGROUND)
     encouraged_lbl=tk.Label(home_frame, font="Bold, 12", background=BACKGROUND)
+
+    weather_lbl=tk.Label(weather_frame, font="Bold, 14",text="Weather", background=BACKGROUND)
+    
+    weather_lbl_2=tk.Label(weather_frame, font="Bold, 12", text=f"{weather}", background=BACKGROUND)
+    weather_description=tk.Label(weather_frame, font="Bold, 12", text=f"{description.capitalize()}", background=BACKGROUND)
+    weather_temp=tk.Label(weather_frame, font="Bold, 12", text=f"{temp}", background=BACKGROUND)
+    info_lbl=tk.Label(weather_frame, font="underline, 12 ", text=f"Last updated at: ", background=BACKGROUND)
+    weather_last_update=tk.Label(weather_frame, font="Bold, 12", text=f"{last_updated_msg}", background=BACKGROUND)
 
     #packing the widgets
     preparedness_meter.pack(pady=10)
     Progress_bar.pack(padx=0, pady=5)
     preparedness_lbl.pack()
     encouraged_lbl.pack(pady=5,anchor="w", padx=20)
-    weather_lbl.place(y=265, x=0)
+
+    #packing the widgets for the weather
+    weather_lbl.pack(pady=5,anchor="w")
+    info_lbl.pack(pady=5,anchor="w")
+    weather_last_update.pack(pady=5,anchor="w")
+    weather_lbl_2.pack(pady=5,anchor="w")
+    weather_description.pack(pady=5,anchor="w")
+    weather_temp.pack(pady=5,anchor="w")
+    weather_frame.place(y=265, x=20)
+
+    #packing the widgets for the home frame
     home_frame.pack_propagate(False)
     home_frame.pack()
     
@@ -408,7 +482,15 @@ def getcountry(IP:str)->str:
         IP (str): Public IP address (IPv4 or IPv6)
 
     Returns:
-        str: Country name
+        dict: Dictionary containing the country name, latitude and 
+
+        location_info=
+        {
+        "country":    json_response["officialCountryName"],
+        "latitude":   json_response["latitude"],
+        "longitude":  json_response["longitude"]
+        }
+        str: "failed to retrieve info" if the request fails
     """
     # Define API URL
     BASE_URL = 'https://apiip.net/api/check?ip='
@@ -420,12 +502,17 @@ def getcountry(IP:str)->str:
     
     # Loading JSON from text to object
     json_response = response.json()
-     
+    
     if response.status_code==200:
-        return json_response["officialCountryName"]
+        location_info={
+            "country":json_response["officialCountryName"],
+            "latitude":json_response["latitude"],
+            "longitude":json_response["longitude"]
+        }
+        return location_info
     else:
        return 'Failed to retrieve info'
-        
+
 def emergency_contacts(Country_name:str)->dict:
     """
     Retrieves emergency contacts from "country.json" based on the country name entered
@@ -434,7 +521,7 @@ def emergency_contacts(Country_name:str)->dict:
         Country_name (str): A string containing the name of the country program is being ran in
 
     Returns:
-        dict: Dictionary containing the countryas the key, and emergency contacts as the argument
+        dict: Dictionary containing the countries, the key, and emergency contacts as the argument
     """
     with open("country_data.json", "r") as file:
         x:dict=json.load(file)
@@ -458,8 +545,67 @@ def has_internet_connection()->bool:
     except Exception:
         return False
 
-def weather_status():
-    pass
+def weather_status(location_info:dict) -> str | dict:
+    """
+    Gets the weather and temperature of a location based on the latitude and longitude
+    """
+    API_KEY="1fb077c200d03c89456700827a2db657"
+    lat=location_info["latitude"]
+    lon=location_info["longitude"]
+    country=location_info["country"]
+
+    weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric")
+
+
+    if weather_data.json()['cod'] == 200:
+        weather = weather_data.json()['weather'][0]['main']
+        weather_description = weather_data.json()['weather'][0]['description']
+        temp = round(weather_data.json()['main']['temp'])
     
+        weather_info ={
+            "weather":weather,
+            "temp":temp,
+            "description":weather_description,
+            "time": datetime.now().strftime(r'%H:%M,%d:%m:%y')
+        }
+        with open('weather_info.json', 'w') as file:
+            file.write(json.dumps(weather_info))
+        return weather_info
+    else:
+        return 'Failed to retrieve info'
+    
+def check_month(number:str)->str:
+    """
+    takes in an integer and returns a string coresponding to the month
+    """
+    number=int(number)
+
+    match number:
+        case 1:
+            month="January"
+        case 2:
+            month="February"
+        case 3:
+            month="March"
+        case 4:
+            month="April"
+        case 5:
+            month="May"
+        case 6:
+            month="June"
+        case 7:
+            month="July"
+        case 8:
+            month="August"
+        case 9:
+            month="September"
+        case 10:
+            month="October"
+        case 11:
+            month="November"
+        case 12:
+            month="December"
+    return month
+
 if __name__=="__main__":
     main()
