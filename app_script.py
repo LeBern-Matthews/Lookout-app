@@ -171,8 +171,8 @@ def layout():
     weather_lbl_2=tk.Label(weather_frame, font="Bold, 12", text=f"{weather}", background=BACKGROUND)
     weather_description=tk.Label(weather_frame, font="Bold, 12", text=f"{description.capitalize()}", background=BACKGROUND)
     weather_temp=tk.Label(weather_frame, font="Bold, 12", text=f"{temp}", background=BACKGROUND)
-    info_lbl=tk.Label(weather_frame, font="underline, 12 ", text=f"Last updated at: ", background=BACKGROUND)
-    weather_last_update=tk.Label(weather_frame, font="Bold, 12", text=f"{last_updated_msg}", background=BACKGROUND)
+    info_lbl=tk.Label(weather_frame, font="underline, 11", text=f"Last updated at: ", background=BACKGROUND)
+    weather_last_update=tk.Label(weather_frame, font="Bold, 11", text=f"{last_updated_msg}", background=BACKGROUND)
 
     #packing the widgets
     preparedness_meter.pack(pady=10)
