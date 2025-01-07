@@ -2,10 +2,10 @@ import tkinter as tk
 from tkinter import ttk
 import socket
 import public_ip as ip
-import requests
+from requests import get
 import json
 from datetime import datetime
-import os
+from os import path
 
 root=tk.Tk()
 #BACKGROUND="#878672"
@@ -86,7 +86,7 @@ def layout():
         Country_name:str="Select a county in settings"
         text:str="Choose location"
 
-        if os.path.exists("weather_info.json"):
+        if path.exists("weather_info.json"):
             print("This file exists")
             with open("weather_info.json", "r") as file:
                 x:dict=json.load(file)
@@ -498,7 +498,7 @@ def getcountry(IP:str)->str:
     API_URL=BASE_URL+IP+'&accessKey=d4f9b109-0a44-4e29-8cdc-c66c07de1942'
    
     # Getting in response JSON
-    response = requests.get(API_URL)
+    response = get(API_URL)
     
     # Loading JSON from text to object
     json_response = response.json()
@@ -554,7 +554,7 @@ def weather_status(location_info:dict) -> str | dict:
     lon=location_info["longitude"]
     country=location_info["country"]
 
-    weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric")
+    weather_data = get(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric")
 
 
     if weather_data.json()['cod'] == 200:
