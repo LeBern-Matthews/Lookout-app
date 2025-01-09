@@ -66,9 +66,9 @@ def layout():
         Country_name:str=location_info["country"]
         text=Country_name
         weather_stuff=weather_status(location_info)
-        weather=weather_stuff["weather"]
-        temp=str(weather_stuff["temp"])+"°C"
-        description=weather_stuff["description"]
+        weather=f"Current weather is {weather_stuff["weather"]}"
+        temp="Temperature: "+str(weather_stuff["temp"])+"°C"
+        description=f"Weather description: {weather_stuff["description"]}"
         last_updated_time=weather_stuff["time"]
         time_part,date_part=last_updated_time.split(",")
         month=check_month(date_part[3:5])
@@ -92,9 +92,9 @@ def layout():
                 x:dict=json.load(file)
                 last_updated_time=x["time"]
                 
-                weather=x["weather"]
-                temp=str(x["temp"])+"°C"
-                description=x["description"]
+                weather=f"Current weather is {x["weather"]}"
+                temp="Temperature: "+str(x["temp"])+"°C"
+                description=f"Weather description: {x["description"]}"
 
 
                 time_part,date_part=last_updated_time.split(",")
