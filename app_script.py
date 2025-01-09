@@ -102,7 +102,7 @@ def layout():
                 
                 date=f"{int(date_part[0:2])}th of {month}, 20{int(date_part[6:8])}"
 
-                if time_part[0:2]="12":
+                if time_part[0:2]>"12":
                     time_part=f"{int(time_part[0:2])-12}:{time_part[3:5]} PM"
                 else:
                     time_part=f"{time_part} AM"
