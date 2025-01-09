@@ -262,7 +262,7 @@ def layout():
 
     contanct_building(Country_name)
     # SETTINGS PAGE
-    settings_frame=tk.Frame(main_frame, highlightbackground="red", highlightthickness=2, height=560, width=360
+    settings_frame=tk.Frame(main_frame, height=560, width=360
                             , background=BACKGROUND, name="settings_frame") 
     settings_frame.pack_propagate(False)
     
