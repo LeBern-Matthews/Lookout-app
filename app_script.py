@@ -279,36 +279,6 @@ def layout():
         Country_name=clicked.get()
         contanct_building(Country_name)
 
-    # Dropdown menu options 
-    options = [ 
-        "Anguilla", 
-        "Antigua and Barbuda", 
-        "Bahamas", 
-        "Barbados", 
-        "Belize", 
-        "Bermuda", 
-        "Bonaire",
-        "British Virgin Islands",
-        "Cayman Islands",
-        "Cuba",
-        "Curacao",
-        "Dominica",
-        "Grenada",
-        "Guadeloupe",
-        "Jamaica",
-        "Martinique",
-        "Montserrat",
-        "Puerto Rico",
-        "Saba",
-        "Saint Barthélemy",
-        "Saint Kitts and Nevis",
-        "Saint Lucia",
-        "Saint Martin",
-        "Saint Vincent and the Grenadines",
-        "Eustatius",
-        "Trinidad and Tobago",
-        "Turks and Caicos Islands"
-    ]
     
     # datatype of menu text 
     clicked = tk.StringVar() 
@@ -317,7 +287,7 @@ def layout():
     clicked.set(text)
     
     # Create Dropdown menu 
-    drop = tk.OptionMenu( location_frame , clicked , *options) 
+    drop = tk.OptionMenu( location_frame , clicked , *bk.country_options()) 
     drop.config(bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND
                 ,border=0)
     #creating the update button
@@ -452,7 +422,7 @@ def layout():
     #Creating the nav bar
     paddingy=24
     navbar=tk.Frame(root, bg=NAVBAR_BACKGROUND, height=40, borderwidth=5, border=5, width=360)
-    home_btn=tk.Button(navbar,image=home_icon,bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(home_frame))
+    home_btn=tk.Button(navbar,image=home_icon_white,bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(home_frame))
     Checklist_btn=tk.Button(navbar,image=Checklist_icon,bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(checklist_frame))
     contacts_btn=tk.Button(navbar,image=contacts_icon,bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, relief="flat", bd=0,command=lambda: switch_page(contacts_frame))
     user_btn=tk.Button(navbar,image=user_icon,bg=NAVBAR_BACKGROUND, activebackground=NAVBAR_BACKGROUND, relief="flat", bd=0, command=lambda: switch_page(settings_frame))
