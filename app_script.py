@@ -7,6 +7,8 @@ import json
 from datetime import datetime
 from os import path
 
+import backend as bk
+
 root=tk.Tk()
 #BACKGROUND="#878672"
 BACKGROUND="#f4f0dc"
@@ -19,19 +21,19 @@ YELLOW="#FFD700"
 RED="#990000"
 
 # ICONS
-home_icon=tk.PhotoImage(file=r"home.png")
-user_icon=tk.PhotoImage(file=r"setting.png")
-contacts_icon=tk.PhotoImage(file=r"id-card.png")
-Checklist_icon=tk.PhotoImage(file=r"test.png")
+home_icon=tk.PhotoImage(file="pictures/home.png")
+user_icon=tk.PhotoImage(file="pictures/setting.png")
+contacts_icon=tk.PhotoImage(file="pictures/id-card.png")
+Checklist_icon=tk.PhotoImage(file="pictures/test.png")
 
 # ICONS WHITE
-home_icon_white=tk.PhotoImage(file=r"home-white.png")
-user_icon_white=tk.PhotoImage(file=r"setting-white.png")
-contacts_icon_white=tk.PhotoImage(file=r"id-card-white.png")
-Checklist_icon_white=tk.PhotoImage(file=r"test-white.png")
+home_icon_white=tk.PhotoImage(file="pictures/home-white.png")
+user_icon_white=tk.PhotoImage(file="pictures/setting-white.png")
+contacts_icon_white=tk.PhotoImage(file="pictures/id-card-white.png")
+Checklist_icon_white=tk.PhotoImage(file="pictures/test-white.png")
 
 variable_list=[]
-essentials=["Water: 1 gallon per person, per day, for at least 3 days", "Non-perishable Food: Canned goods, dries fruits, nuts", "Manual can opener", "First-Aid kit", "Battery-powered or hand-cranked rdio", "Flashlights and extra betteries", "Cell phone charger", "Cash: ATMs may be unavailable", "Important documents: Birth Certificates, insurance policies","Tools", "Hygiene Items", "Wet wipes", "Plastic bags", "work gloves", "Blackets and Pillows", "Rain Gear"]
+
 
 def main():
     """
@@ -43,7 +45,7 @@ def main():
     layout()
     root.resizable(False, False)
     center_window(root)
-    root.iconphoto(False, tk.PhotoImage(file=r"icon.png"))
+    root.iconphoto(False, tk.PhotoImage(file="pictures/icon.png"))
     root.mainloop()
 
 def center_window(window):
@@ -202,7 +204,7 @@ def layout():
     essential_supplies.place(x=0, y=5)
     
     essentials_frame=tk.Frame(checklist_frame, background=BACKGROUND, name="essentials_frame")
-    for essential in essentials:
+    for essential in bk.get_essentials():
         choiceNum = tk.IntVar()
         check_btn=tk.Checkbutton(essentials_frame, text=f"{essential}", 
                                 height=1, variable=choiceNum, command=lambda:fill_progressbar(check_btn)
