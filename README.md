@@ -57,28 +57,68 @@ This Python program will create an app that is used for hurricane preparedness
 
 
 ## Functions
-`main()`
 
-The main function that runs the program
+`main()`
+- The main function that initializes and runs the application
+- Sets up the window title, size, and icon
+- Makes the window non-resizable and centers it on screen
 
 `layout()`
+- Creates the entire layout of the application
+- Sets up four main frames: home, checklist, contacts, and settings
+- Configures the navigation bar and theme settings
 
-Creates the layout of the app
+`getcountry(IP: str)`
+- Takes a public IP address as input
+- Returns location information including country name, latitude, and longitude
+- Uses the apiip.net service for geolocation
 
-`getcountry()`
-
-Gets IP dress from the public_ip module
-        
-`emergency_contacts()`
+`emergency_contacts(Country_name: str)`
+- Retrieves emergency contact information for a specific country
+- Returns a dictionary containing police, ambulance, and fire department numbers
+- Sources data from country_data.json
 
 `has_internet_connection()`
+- Checks if the device has an active internet connection
+- Returns True if connected, False otherwise
+- Tests connection by attempting to reach Google's DNS (8.8.8.8)
 
-`weather_status()`
+`weather_status(location_info: dict)`
+- Gets current weather information based on latitude and longitude
+- Returns weather conditions, temperature, and description
+- Uses OpenWeatherMap API for weather data
 
 `getIP()`
+- Gets the device's public IP address
+- Returns the IP address as a string
+- Uses the public_ip library
+
+`weather_stuff()`
+- Combines multiple functions to get complete weather information
+- Updates global variables for weather display
+- Handles both online and offline scenarios using cached data
+
+Additional Functions:
+
+`get_essentials()`
+- Returns a list of essential items for hurricane preparedness
+- Reads from essetial_items.txt file
+
+`country_options()`
+- Returns a list of supported countries
+- Used for the location dropdown menu
+
+`check_month(number: str)`
+- Converts numeric month to month name
+- Used for formatting dates in weather updates
+
+`center_window(window)`
+- Centers the application window on the screen
 
 ## Dependencies
 
+1. Requests library
+2. public_ip library
 ## Acknowledgments
 - Icons used in the navigation bar are sourced from [here](https://www.flaticon.com/authors/freepik)
 - Geolocation service powered by [apiip.net](https://apiip.net/).
