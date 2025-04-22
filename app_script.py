@@ -1,6 +1,5 @@
 #import tkinter as tk
-from tkinter import Frame, Label, OptionMenu, Radiobutton, Button, Checkbutton, StringVar, IntVar
-from tkinter.ttk import Style, Progressbar
+from tkinter import Frame, Label,Button, Checkbutton
 import backend as bk
 from pages.home_page import HomePage
 from pages.checklist_page import ChecklistPage
