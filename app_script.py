@@ -1,117 +1,142 @@
-#import tkinter as tk
-from tkinter import Frame, Label,Button, Checkbutton
+from tkinter import Frame, Label, Button, Checkbutton
 import backend as bk
 from pages.home_page import HomePage
 from pages.checklist_page import ChecklistPage
 from pages.emergency_contacts import EmergencyContactsPage
 from pages.settings_page import SettingsPage
 
-bk.root
-
-variable_list=[]
+# Initialize root and variables
+variable_list = []
 
 def main():
-    """
-    # Main function that runs the program
-    """
+    """Main function that runs the program"""
     bk.root.title("Lookout")
     bk.root.geometry("360x640")
+    bk.root.resizable(False, False)
+    bk.root.iconphoto(False, bk.root_image)
     
     layout()
-    bk.root.resizable(False, False)
     center_window(bk.root)
-    bk.root.iconphoto(False, bk.root_image)
     bk.root.mainloop()
 
 def center_window(window):
+    """Centers the window on the screen"""
     window.update_idletasks()
     width = window.winfo_width()
     height = window.winfo_height()
-    screen_width = window.winfo_screenwidth()
-    screen_height = window.winfo_screenheight()
-    x = (screen_width - width) // 2
-    y = (screen_height - height) // 2
+    x = (window.winfo_screenwidth() - width) // 2
+    y = (window.winfo_screenheight() - height) // 2
     window.geometry(f"{width}x{height}+{x}+{y}")
 
+def create_navbar(main_frame, home_page, checklist_page, contacts_page, settings_page, switch_page):
+    """Creates and returns the navigation bar"""
+    navbar = Frame(bk.root, bg=bk.NAVBAR_BACKGROUND, height=40, 
+                  borderwidth=5, border=5, width=360)
+    
+    buttons = [
+        (home_btn := Button(navbar, image=bk.home_icon_white, command=lambda: switch_page(home_page.home_frame))),
+        (checklist_btn := Button(navbar, image=bk.checklist_icon, command=lambda: switch_page(checklist_page.checklist_frame))),
+        (contacts_btn := Button(navbar, image=bk.contacts_icon, command=lambda: switch_page(contacts_page.contacts_frame))),
+        (user_btn := Button(navbar, image=bk.user_icon, command=lambda: switch_page(settings_page.settings_frame)))
+    ]
+    
+    # Configure all buttons
+    for btn in buttons:
+        btn.config(bg=bk.NAVBAR_BACKGROUND, activebackground=bk.NAVBAR_BACKGROUND, 
+                  relief="flat", bd=0)
+    
+    # Pack buttons
+    home_btn.pack(side="left", padx=20, pady=24)
+    checklist_btn.pack(side="left", padx=30, pady=24)
+    contacts_btn.pack(side="left", padx=30, pady=24)
+    user_btn.pack(side="left", padx=30, pady=24)
+    
+    navbar.place(x=0, y=560)
+    return navbar, home_btn, checklist_btn, contacts_btn, user_btn
+
 def layout():
-    """
-    Creates the layout of the app
-    """
+    """Creates the layout of the app"""
     bk.weather_stuff()     
     main_frame = Frame(bk.root, name="main_frame") 
     main_frame.pack_propagate(False)
     main_frame.configure(height=560, width=360)
     main_frame.pack(side="top")
 
-    def change_theme(FORGROUND_COLOR:str, BACKGROUND_COLOR:str)->None:
-        """"
-        Changes the colour for the widgets in the frame "main_frame" to match the color passed in the argument
-
-        Parameters:
-            FORGROUND_COLOR (str): The color of the text in the widgets
-            BACKGROUND_COLOR (str): The background color of the widgets
-        """
+    def change_theme(foreground_color: str, background_color: str) -> None:
+        """Changes the color theme of all widgets"""
         for page in main_frame.winfo_children():
-            page.config(bg=BACKGROUND_COLOR)
-            for children in page.winfo_children():
-                if type(children)==Frame:
-                    children.config(bg=BACKGROUND_COLOR)
+            page.config(bg=background_color)
+            for child in page.winfo_children():
+                if isinstance(child, Frame):
+                    child.config(bg=background_color)
+                    for widget in child.winfo_children():
+                        widget.config(fg=foreground_color, bg=background_color)
+                        if child.winfo_name() == "location_frame" and isinstance(widget, Button):
+                            widget.config(highlightcolor=foreground_color, 
+                                       highlightbackground=foreground_color)
+                        if isinstance(widget, Checkbutton):
+                            widget.config(selectcolor=background_color,
+                                       activebackground=background_color)
+                elif isinstance(child, Label):
+                    child.config(fg=foreground_color, bg=background_color)
 
-                    for widget in children.winfo_children():
-                        widget.config(fg=FORGROUND_COLOR)
-                        widget.config(bg=BACKGROUND_COLOR)
-                        if children.winfo_name()=="location_frame" and type(widget)==Button:
-                            widget.config(highlightcolor=FORGROUND_COLOR,highlightbackground = FORGROUND_COLOR)
+    def change_navbar_theme(color: str) -> None:
+        """Changes the navbar color theme"""
+        navbar.config(bg=color)
+        for btn in [home_btn, checklist_btn, contacts_btn, user_btn]:
+            btn.config(bg=color, activebackground=color)
 
-                        if type(widget)==Checkbutton:
-                            widget.config(selectcolor=BACKGROUND_COLOR
-                            ,activebackground=BACKGROUND_COLOR)
-
-                elif type(children)==Label:
-                    children.config(fg=FORGROUND_COLOR)
-                    children.config(bg=BACKGROUND_COLOR)
-
-    def change_navbar_theme(COLOR:str)->None:
-        """
-        Changes the color of the nav bar and the buttons in the nav bar to the color passed in the argument
-
-        Parameters:
-            COLOR (str): The color to change the nav bar and the buttons in the nav bar to
-        """
-        navbar.config(bg=COLOR)
-        home_btn.config(bg=COLOR, activebackground=COLOR)
-        Checklist_btn.config(bg=COLOR, activebackground=COLOR)
-        contacts_btn.config(bg=COLOR, activebackground=COLOR)
-        user_btn.config(bg=COLOR, activebackground=COLOR)
-
-    def fill_progressbar(check_btn: Checkbutton):
-        """
-        Updates the progress bar based on checked items
-        """
-        progresss_fill = 0
+    def switch_page(page: Frame) -> None:
+        """Switches to the selected page"""
+        # Reset all button images
+        button_configs = {
+            home_btn: bk.home_icon,
+            checklist_btn: bk.checklist_icon,
+            contacts_btn: bk.contacts_icon,
+            user_btn: bk.user_icon
+        }
         
-        # Calculate total progress from all checkboxes
-        if len(variable_list) > 0:  # Prevent division by zero
-            for choice in variable_list:
-                if choice.get() == 1:
-                    progresss_fill += (100.0 / len(variable_list))
+        for btn, icon in button_configs.items():
+            btn.config(image=icon)
             
-            # Update progress bar appearance and text
-            if progresss_fill <= 33.33:
-                home_page.Progress_bar.config(style="Bad.Horizontal.TProgressbar")
-                encourage_text = "unprepared"
-            elif progresss_fill <= 66.66:
-                home_page.Progress_bar.config(style="Moderate.Horizontal.TProgressbar")
-                encourage_text = "sufficiently prepared"
-            else:
-                home_page.Progress_bar.config(style="good.Horizontal.TProgressbar")
-                encourage_text = "prepared"
+        # Set active button image
+        frame_to_button = {
+            "home_frame": (home_btn, bk.home_icon_white),
+            "checklist_frame": (checklist_btn, bk.checklist_icon_white),
+            "contacts_frame": (contacts_btn, bk.contacts_icon_white),
+            "settings_frame": (user_btn, bk.user_icon_white)
+        }
+        
+        if page.winfo_name() in frame_to_button:
+            button, icon = frame_to_button[page.winfo_name()]
+            button.config(image=icon)
             
-            percentage = round(progresss_fill, 2)
-            home_page.preparedness_lbl.config(text=f"{percentage}%")
-            home_page.encouraged_lbl.config(text=f"You are {encourage_text} for a disaster")
-            home_page.Progress_bar.configure(value=progresss_fill)
-            home_page.home_frame.update_idletasks()
+        # Switch pages
+        for frame in main_frame.winfo_children():
+            frame.pack_forget()
+        page.pack()
+
+    def fill_progressbar(check_btn: Checkbutton) -> None:
+        """Updates the progress bar based on checked items"""
+        if not variable_list:
+            return
+            
+        checked_count = sum(var.get() for var in variable_list)
+        progress_fill = (checked_count * 100.0) / len(variable_list)
+        
+        # Update progress bar appearance and text
+        if progress_fill <= 33.33:
+            style, status = "Bad.Horizontal.TProgressbar", "unprepared"
+        elif progress_fill <= 66.66:
+            style, status = "Moderate.Horizontal.TProgressbar", "sufficiently prepared"
+        else:
+            style, status = "good.Horizontal.TProgressbar", "prepared"
+        
+        percentage = round(progress_fill, 2)
+        home_page.Progress_bar.config(style=style, value=progress_fill)
+        home_page.preparedness_lbl.config(text=f"{percentage}%")
+        home_page.encouraged_lbl.config(text=f"You are {status} for a disaster")
+        home_page.home_frame.update_idletasks()
     
     # Initialize pages
     home_page = HomePage(main_frame)
@@ -119,55 +144,10 @@ def layout():
     contacts_page = EmergencyContactsPage(main_frame)
     settings_page = SettingsPage(main_frame, contacts_page, change_theme, change_navbar_theme)
 
-    # Create navbar
-    paddingy=24
-    navbar = Frame(bk.root, bg=bk.NAVBAR_BACKGROUND, height=40, borderwidth=5, border=5, width=360)
-    Checklist_btn=Button(navbar,image=bk.checklist_icon,bg=bk.NAVBAR_BACKGROUND, 
-                        activebackground=bk.NAVBAR_BACKGROUND, relief="flat", bd=0,
-                        command=lambda: switch_page(checklist_page.checklist_frame))
-    contacts_btn=Button(navbar,image=bk.contacts_icon,bg=bk.NAVBAR_BACKGROUND, 
-                       activebackground=bk.NAVBAR_BACKGROUND, relief="flat", bd=0,
-                       command=lambda: switch_page(contacts_page.contacts_frame))
-    user_btn=Button(navbar,image=bk.user_icon,bg=bk.NAVBAR_BACKGROUND, 
-                   activebackground=bk.NAVBAR_BACKGROUND, relief="flat", bd=0, 
-                   command=lambda: switch_page(settings_page.settings_frame))
-    home_btn=Button(navbar,image=bk.home_icon_white,bg=bk.NAVBAR_BACKGROUND, 
-                   activebackground=bk.NAVBAR_BACKGROUND, relief="flat", bd=0, 
-                   command=lambda: switch_page(home_page.home_frame))
+    # Create navbar and get button references
+    navbar, home_btn, checklist_btn, contacts_btn, user_btn = create_navbar(
+        main_frame, home_page, checklist_page, contacts_page, settings_page, switch_page
+    )
 
-    #packing stuff
-    home_btn.pack(side="left", padx=20, pady=paddingy)
-    Checklist_btn.pack(side="left", padx=30, pady=paddingy)
-    contacts_btn.pack(side="left", padx=30, pady=paddingy)
-    user_btn.pack(side="left", padx=30, pady=paddingy)
-    navbar.place(x=0,y=560)
-
-    def switch_page(page: Frame):
-        """
-        Switches to the frame clicked 
-
-        Args:
-            page(Frame): tkinter frame relating to the page 
-        """
-        home_btn.config(image=bk.home_icon)
-        Checklist_btn.config(image=bk.checklist_icon)
-        contacts_btn.config(image=bk.contacts_icon)
-        user_btn.config(image=bk.user_icon)
-
-        match page.winfo_name():
-            case "home_frame":
-                home_btn.config(image=bk.home_icon_white)
-            case "checklist_frame":
-                Checklist_btn.config(image=bk.checklist_icon_white)
-            case "contacts_frame":
-                contacts_btn.config(image=bk.contacts_icon_white)
-            case "settings_frame":
-                user_btn.config(image=bk.user_icon_white)
-            case _:
-                pass
-        for frame in main_frame.winfo_children():
-            frame.pack_forget()
-        page.pack()
-  
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
